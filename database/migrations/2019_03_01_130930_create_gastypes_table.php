@@ -15,7 +15,9 @@ class CreateGastypesTable extends Migration
     {
         Schema::create('gastypes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('gastype');
             $table->timestamps();
+
         });
     }
 
