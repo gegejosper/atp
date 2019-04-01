@@ -17,4 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/login', function () {
+    return view('auth.login');
+});
+Route::post('/userlogin', 'LoginController@userLogin')->name('userLogin');
+
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
+    Route::get('/home', 'AdminController@index')->name('home');
+    Route::get('/about', 'AdminController@about')->name('about');
+
+});
