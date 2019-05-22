@@ -16,6 +16,8 @@ class CreatePumpsTable extends Migration
         Schema::create('pumps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pumpname');
+            $table->string('branchid');
+            $table->string('gasid');
             $table->timestamps();
         });
     }

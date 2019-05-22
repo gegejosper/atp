@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCashremittancereportTable extends Migration
+class CreateBranchgasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateCashremittancereportTable extends Migration
      */
     public function up()
     {
-        Schema::create('cashremittancereports', function (Blueprint $table) {
+        Schema::create('branchgases', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('branchid');
+            $table->string('gasid');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateCashremittancereportTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cashremittancereports');
+        Schema::dropIfExists('branchgases');
     }
 }

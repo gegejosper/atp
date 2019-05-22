@@ -15,6 +15,11 @@ class CreateCreditsalesreportTable extends Migration
     {
         Schema::create('creditsalesreports', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('cashierid');
+            $table->string('branchid');
+            $table->string('customerid');
+            $table->string('invoicenum');
+            $table->string('amount');
             $table->timestamps();
         });
     }
