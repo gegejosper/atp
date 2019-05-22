@@ -144,7 +144,7 @@ html , body{
     padding: 0 0 4px 0
 }
 .left_col {
-    background: #2A3F54
+    background: #274f5c;
 }
 .nav-sm .container.body .col-md-3.left_col {
     min-height: 100%;
@@ -360,7 +360,7 @@ body .container.body .right_col {
 .nav_title {
     width: 230px;
     float: left;
-    background: #2A3F54;
+    background: #274f5c;
     border-radius: 0;
     height: 57px
 }
@@ -492,7 +492,7 @@ body .container.body .right_col {
 }
 body {
     color: #73879C;
-    background: #2A3F54;
+    background: #274f5c;
     font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -4298,4 +4298,20 @@ body {
     .memberlistview{
         width:100%;
     }
+}
+.page-title .title_left h3 {
+    margin: 9px 9px;
+}
+.bs-glyphicons li {
+    height: 80px;
+}
+.bs-glyphicons li:hover {
+    color: #fff;
+    cursor: pointer;
+    background-color: #274f5c;
+}
+.bs-glyphicons li a:hover {
+    color: #fff;
+    cursor: pointer;
+    
 }

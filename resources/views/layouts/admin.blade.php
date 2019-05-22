@@ -39,7 +39,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title"><img src="{{ asset('img/logo.png') }}" alt="" style="width:50px;"> <span>EAGLES MS</span></a>
+              <a href="/" class="site_title"><img src="{{ asset('img/logo.png') }}" alt="" style="width:50px;"> <span>ATP-IIS</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -67,15 +67,38 @@
                     <a href="/admin/home"><i class="fa fa-home"></i> Home </a> 
                   </li>
                   <li>
-                    <a href="/admin/members"><i class="fa fa-group"></i> Members </a> 
+                    <a href="/admin/sales"><i class="fa fa-money"></i> Sales </a> 
                   </li>
                   <li>
-                    <a href="/admin/clubs"><i class="fa fa-puzzle-piece"></i> Clubs </a> 
+                    <a href="/admin/sales"><i class="fa fa-users"></i> Accounts </a> 
                   </li>
+                  
+
+                  <li><a><i class="fa fa-sitemap"></i> Branches <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    @foreach($dataBranch as $Branch)
+                      <li>
+                        <a href="/admin/branches/{{$Branch->id}}"><i class="fa fa-building"></i> {{$Branch->branchname}}</a> 
+                      </li>
+                    @endforeach  
+                   
+                    </ul>
+                  </li>    
                   <li>
-                    <a href="/admin/regions"><i class="fa fa-bank"></i> Regions </a> 
+                    <a href="/admin/reports"><i class="fa fa-folder"></i> Reports </a> 
                   </li>
-                                  
+                  <li><a><i class="fa fa-edit"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li>
+                        <a href="/admin/products">Products </a> 
+                      </li>
+                    <li><a href="/admin/settings">Settings</a></li>
+                      <li><a href="/admin/gastypes">Gas Types</a></li>
+                      <li><a href="/admin/pumps">Pumps</a></li>
+                      <li><a href="/admin/branches">Branches</a></li>
+                      <li><a href="/admin/users">Users</a></li>
+                    </ul>
+                  </li>                
                   <li>
                       <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" ><i class="fa fa-lock"></i><span>Logout</span></a>
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -143,7 +166,8 @@
 <script src="{{ asset('js/validate.js') }}"></script>
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/select2.js') }}"></script>
-        <!-- page content -->
+ 
+<!-- page content -->
         @yield('content')
         <!-- /page content -->
 
@@ -246,7 +270,8 @@
     <!-- bootstrap-daterangepicker -->
     <script src="{{ asset('vendors/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
+    <!-- Validator -->
+    <script src="{{ asset('vendors/validator/validator.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('build/js/custom.js') }}"></script>
 
