@@ -18,6 +18,7 @@ class CreatePumpsTable extends Migration
             $table->string('pumpname');
             $table->string('branchid');
             $table->string('gasid');
+            $table->string('volume');
             $table->timestamps();
         });
     }

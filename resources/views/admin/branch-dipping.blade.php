@@ -30,31 +30,72 @@
         </div>            
 </div>  
 <div class="row">
-    <div class="col-md-4 col-lg-6 col-sm-12 col-xs-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
         <div class="x_panel">
-            <h4>Petrol</h4>
+            <div class="x_title">
+                <h4>Tank Dipping  
+                </h4>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                {{ csrf_field() }}                              
+                <div class="input-group col-lg-12">
+                    <label for="Volume">Volume</label>
+                    <input type="text" class="form-control" placeholder="Volume"  aria-describedby="basic-addon2" name="dipvolume" id="dipvolume">
+                    <input type="hidden" name="branchid" value="{{$BranchId}}">
+                </div>
+                <div class="input-group col-lg-12">
+                    <label for="Date">Date</label>
+                    <input type="text" class="form-control"  aria-describedby="basic-addon2" name="dippingdate" id="dippingdate" value="{{ date('m-d-Y')}}">  
+                </div>
+                <div class="input-group col-lg-12">
+                    <label for="Type">Type</label>
+                    <input type="text" class="form-control"  aria-describedby="basic-addon2" name="dippingtype" id="dippingtype" value="{{ $type }}">  
+                </div>
+                
+                <div class="input-group col-lg-12">
+                    <label for="Petrol">Petrol</label>
+                    <select name="gastype" id="" class="form-control">
+                    @foreach($dataBranchgas as $Branchgas)
+                            <option value="{{$Branchgas->gas['id']}},{{$Branchgas->gas['gasname']}}">{{$Branchgas->gas['gasname']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="input-group col-lg-12">
+                    <button class="btn btn-primary" type="submit" id="add">Save</button> 
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-4 col-lg-8 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <h4>Petrol Tank Dipping</h4>
             <!-- /widget-header -->
             <div class="widget-content">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered" id="table">
                     <thead>
                     <tr>
                         
                         <th> Petrol Name</th>
+                        <th> Volume</th>
+                        <th> Type</th>
                         <th> Action </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {{ csrf_field() }}   
-                    @forelse($Gas as $Gastype)
-                    <tr class="productitem{{$Gastype->id}}">
+                
+                    @forelse($dippingDate as $Dipping)
+                    <tr class="productitem{{$Dipping->id}}">
                         
-                        <td>{{$Gastype->gasname}}</td>
+                        <td>{{$Dipping->gas->gasname}}</td>
+                        <td>{{$Dipping->dipvolume}}</td>
+                        <td>{{$Dipping->type}}</td>
                         <td>
-                            <button class='addbranch btn btn-xs btn-success' data-id='{{$Gastype->id}}' data-productname='{{$Gastype->gasname}}' data-branchid='{{$BranchId}}'><i class='fa fa-plus'> Add to Branch</i></button>
+                            <button class='btn btn-xs btn-danger' data-id='{{$Dipping->id}}'><i class='fa fa-remove'></i></button>
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="3" style="text-align:center;"><em>All Petrol Types Available to Branch </em></td></tr>
+                    <tr><td colspan="4" style="text-align:center;"><em>All Petrol Types Available to Branch </em></td></tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -175,6 +216,6 @@
                     <!-- /.row -->
     </div>
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/branchgasscript.js') }}"></script>
+<script src="{{ asset('js/branchdippingscript.js') }}"></script>
 <!-- /main -->
 @endsection

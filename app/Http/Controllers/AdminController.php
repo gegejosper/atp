@@ -51,7 +51,7 @@ class AdminController extends Controller
     public function users()
     {
         $dataBranch = Branch::get();
-        return view('admin.users');
+        return view('admin.users', compact('dataBranch'));
     }
     public function settings()
     {

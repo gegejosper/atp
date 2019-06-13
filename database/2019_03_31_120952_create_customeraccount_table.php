@@ -15,13 +15,13 @@ class CreateCustomeraccountTable extends Migration
     {
         Schema::create('customeraccounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('customerid');
-            $table->string('name')->nullable(false)->change();
-            $table->string('invoicenum')->nullable(false)->change();
-            $table->string('charge')->nullable(false)->change();
-            $table->string('credit')->nullable(false)->change();
-            $table->string('balance')->nullable(false)->change();
-            $table->string('invoicedate')->nullable(false)->change();
+            $table->string('branchid');
+            $table->string('name');
+            $table->string('invoicenum');
+            $table->string('charge');
+            $table->string('credit');
+            $table->string('balance');
+            $table->string('invoicedate');
             $table->timestamps();
         });
     }

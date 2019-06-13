@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBranchgasTable extends Migration
+class CreateAccountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateBranchgasTable extends Migration
      */
     public function up()
     {
-        Schema::create('branchgases', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('branchid');
-            $table->string('gasid');
-            $table->string('volume');
-            $table->string('status');
+            $table->string('fname');
+            $table->string('lastname');
+            $table->string('mname');
+            $table->string('address');
+            $table->string('discount');
+            $table->string('tax');
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateBranchgasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branchgases');
+        Schema::dropIfExists('accounts');
     }
 }

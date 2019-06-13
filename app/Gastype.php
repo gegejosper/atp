@@ -12,4 +12,8 @@ class Gastype extends Model
     {
         return $this->hasMany('App\Branchgases','gasid');
     }
+    public function branchpump()
+    {
+        return $this->hasMany('App\Pump','gasid');
+    }
 }

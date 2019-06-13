@@ -31,7 +31,7 @@ class UserController extends Controller
 
         } else {
             $data = new User();
-            $data->name = $request->fullname;
+            $data->name = strtoupper($request->fullname);
             $data->usertype = 'cashier';
             $data->email = $request->email;
             $data->password = bcrypt($request->password);
@@ -48,7 +48,7 @@ class UserController extends Controller
     public function editUser(Request $req)
     {
         $data = User::find($req->id);
-        $data->name = $req->fullname;
+        $data->name = strtoupper($req->fullname);
         $data->email = $req->email;
         if(!empty($req->password)){
             $data->password = bcrypt($req->password);

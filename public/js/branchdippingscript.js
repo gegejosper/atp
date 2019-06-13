@@ -60,15 +60,21 @@ $(document).ready(function() {
           });
       });
       $("#add").click(function() {
-  
+        var gas = $('select[name=gastype]').val();
+        var array = gas.split(',');
+        var gasid = array[0];
+        var gasname = array[1];
           $.ajax({
               type: 'post',
-              url: '/admin/branches/pumps/add',
+              url: '/admin/branches/dipping/add',
               data: {
                   '_token': $('input[name=_token]').val(),
-                  'pumpname': $('input[name=pumpname]').val(),
+                  'dipvolume': $('input[name=dipvolume]').val(),
+                  'dippingtype': $('input[name=dippingtype]').val(),
+                  'dippingdate': $('input[name=dippingdate]').val(),
                   'branchid': $('input[name=branchid]').val(),
-                  'gasid': $('select[name=gastype]').val()
+                  'gasid': gasid,
+                  'gasname': gasname
               },
               success: function(data) {
                   if ((data.errors)){
@@ -76,7 +82,7 @@ $(document).ready(function() {
                       $('.error').text(data.errors.name);
                       new PNotify({
                         title: 'Error',
-                        text: 'Please enter Pump Name',
+                        text: 'Please enter Enter Dipping Volume',
                         type: 'warning',
                         delay: 2000,
                         styling: 'bootstrap3'
@@ -84,7 +90,7 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.pumpname +"</td><td>" + data.gasid + "</td><td></td><td class='td-actions'><button class='edit-modal btn btn-xs btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> Update</i></button><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'> Remove</i></a></td></tr>");
+                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipvolume + "</td><td>" + data.type + "</td><td></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'> Remove</i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
                         text: 'Pump successfully Added',

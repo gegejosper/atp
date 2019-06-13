@@ -39,7 +39,7 @@
             <div class="x_content">
                 {{ csrf_field() }}                              
                 <div class="input-group col-lg-12">
-                    <input type="text" class="form-control" placeholder="Pump Name"  aria-describedby="basic-addon2" name="pumpname">
+                    <input type="text" class="form-control" placeholder="Pump Name"  aria-describedby="basic-addon2" name="pumpname" id="pumpname">
                     <input type="hidden" name="branchid" value="{{$BranchId}}">
                 </div>
                 <div class="input-group col-lg-12">
@@ -69,6 +69,7 @@
                 
                         <th> Name</th>
                         <th> Gas Type </th>
+                        <th> Volumetric ( <em style="font-weight:normal;">Liters</em> ) </th>
                         <th> Action </th>
                     </tr>
                     </thead>
@@ -78,9 +79,10 @@
                        
                         <td>{{$Pump->pumpname}}</td>
                         <td>{{$Pump->gastype->gasname}}</td>
+                        <td>{{number_format($Pump->volume,2)}}</td>
                         <td class='td-actions'>
-                            <button class='edit-modal btn btn-small btn-success' data-id='{{$Pump->id}}' data-name='{{$Pump->pumpname}}'><i class='fa fa-pencil'> Edit</i></button>
-                            <a class='delete-modal btn btn-danger btn-small' data-id='{{$Pump->id}}'><i class='fa fa-times'>Remove</i></a>
+                            <button class='edit-modal btn btn-xs btn-success' data-id='{{$Pump->id}}' data-name='{{$Pump->pumpname}}' data-volume='{{$Pump->volume}}' data-gasname='{{$Pump->gastype->gasname}}'><i class='fa fa-pencil'> Update</i></button>
+                            <a class='delete-modal btn btn-danger btn-xs' data-id='{{$Pump->id}}'><i class='fa fa-times'> Remove</i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -106,13 +108,20 @@
   						<div class="form-group">
   							
   							<div class="col-sm-10">
-  								<input type="hidden" class="form-control" id="fid">
+                                  <input type="hidden" class="form-control" id="fid">
+                                  <input type="hidden" class="form-control" id="gasname">
   							</div>
   						</div>
   						<div class="form-group align-left">
   							<label class="col-sm-12 " for="pump_name" >Pump Name:</label>
   							<div class="col-sm-12">
   								<input type="text" class="form-control" id="pumpedit_name" name="pumpedit_name">
+                            </div>
+                        </div>
+                        <div class="form-group align-left">
+  							<label class="col-sm-12 " for="volume" >Volume ( <em style="font-weight:normal;">Liters</em> )</label>
+  							<div class="col-sm-12">
+  								<input type="text" class="form-control" id="volumeedit" name="volumeedit">
                             </div>
                         </div>
   					</form>

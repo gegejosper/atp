@@ -57,6 +57,12 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::post('/branches/users/edit', 'UserController@editUser')->name('editUser');
     Route::post('/branches/users/delete', 'UserController@deleteUser')->name('deleteUser');
 
+    Route::get('/branches/accounts/{branchid}', 'BranchController@branchaccounts')->name('accounts');
+    Route::post('/branches/accounts/add', 'AccountsController@addAccount')->name('addAccount');
+    Route::post('/branches/accounts/edit', 'AccountsController@editAccount')->name('editAccount');
+    Route::post('/branches/accounts/delete', 'AccountsController@deleteAccount')->name('deleteAccount');
+    Route::get('/branches/account/{accountid}', 'AccountsController@viewAccount')->name('viewAccount');
+
     Route::get('/branches/products/{branchid}', 'BranchController@branchproduct')->name('branchproduct');
     Route::post('/branches/products/add', 'ProductController@addBranchProduct')->name('addBranchProduct');
     Route::post('/branches/products/edit', 'ProductController@editBranchProduct')->name('editBranchProduct');
@@ -65,6 +71,10 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::get('/branches/gas/{branchid}', 'BranchController@branchgas')->name('branchgas');
     Route::post('/branches/gas/add', 'GastypeController@addBranchGas')->name('addBranchGas');
     Route::post('/branches/gas/delete', 'GastypeController@deleteBranchGas')->name('deleteBranchGas');
+    
+    Route::get('/branches/dipping/{branchid}', 'DippingController@branchdipping')->name('branchdipping');
+    Route::post('/branches/dipping/add', 'DippingController@addBranchDipping')->name('addBranchDipping');
+    
 
     Route::get('/users', 'AdminController@users')->name('users');
     Route::get('/settings', 'AdminController@settings')->name('settings');

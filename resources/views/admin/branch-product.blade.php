@@ -32,13 +32,13 @@
 <div class="row">
     <div class="col-md-4 col-lg-3 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <h4>Gas Types</h4>
+            <h4>Products</h4>
             <!-- /widget-header -->
             <div class="widget-content">
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th> Gas Name</th>
+                        <th> Product Name</th>
                         <th> Action </th>
                     </tr>
                     </thead>

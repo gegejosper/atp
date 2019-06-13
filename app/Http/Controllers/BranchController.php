@@ -8,6 +8,8 @@ use App\User;
 use App\Pump;
 use App\Gastype;
 use App\Branchgases;
+use App\Customeraccount;
+use App\Account;
 use App\Cashier;
 use App\Product;
 use App\Branchproduct;
@@ -77,11 +79,19 @@ class BranchController extends Controller
         return view('admin.branch-user', compact('dataBranch', 'dataCashier', 'BranchId'));
     }
 
+    public function branchaccounts($branchId)
+    {
+        $BranchId = $branchId;
+        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataAccounts = Account::where('branchid', '=', $branchId)->get();
+        return view('admin.branch-accounts', compact('dataBranch', 'dataAccounts', 'BranchId'));
+    }
+
     public function branchgas($branchId)
     {
         $BranchId = $branchId;
         $dataBranch = Branch::where('id', '=', $branchId)->get();
-        $dataGastype = Gastype::with('branchgas')->get();
+        $dataGastype = Gastype::with('branchpump')->get();
         $Gas = array();
         foreach($dataGastype as $gastype){
             $BranchGasAvail= Branchgases::where('branchid', '=', $BranchId)->where('gasid', '=', $gastype->id)->count();
@@ -89,8 +99,9 @@ class BranchController extends Controller
                 array_push($Gas, $gastype);
             }
         }
-        dd($dataGastype);
-        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
+        
+        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas.branchpump')->get();
+        //dd($dataBranchgas);
         return view('admin.branch-gas', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas'));
     }
     public function branchproduct($branchId)

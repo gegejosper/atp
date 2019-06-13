@@ -36,7 +36,8 @@ class PumpController extends Controller
     public function editPump(Request $req)
     {
         $data = Pump::find($req->id);
-        $data->pumpname = $req->pumpname; 
+        $data->pumpname = $req->pumpname;
+        $data->volume = $req->volume; 
         $data->save();
         return response()->json($data);
     }

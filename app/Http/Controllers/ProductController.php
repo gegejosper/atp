@@ -25,7 +25,7 @@ class ProductController extends Controller
             ));
         } else {
             $data = new Product();
-            $data->productname = $request->productname;
+            $data->productname = strtoupper($request->productname);
             $data->save();
 
             return response()->json($data);
@@ -34,7 +34,7 @@ class ProductController extends Controller
     public function editProduct(Request $req)
     {
         $data = Product::find($req->id);
-        $data->productname = $req->productname; 
+        $data->productname = strtoupper($req->productname); 
         $data->save();
         return response()->json($data);
     }
