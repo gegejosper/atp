@@ -21,11 +21,12 @@
                     @endif
               <div>
               
-			  <input type="text" id="email" name="email" value="" placeholder="Email" class="login username-field form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" required autofocus/>
+			  <input id="username" type="text" class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') ?: old('email') }}" required autofocus>
                     
               </div>
               <div>
-             
+              
+
 			  <input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" required/>
                     @if ($errors->has('password'))
                         <span class="invalid-feedback" role="alert">

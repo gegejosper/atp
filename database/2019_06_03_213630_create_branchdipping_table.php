@@ -18,6 +18,8 @@ class CreateBranchdippingTable extends Migration
             $table->string('branchid');
             $table->string('gasid');
             $table->string('dipvolume');
+            $table->string('dipopenvolume');
+            $table->string('dipclosevolume');
             $table->string('dippingdate');
             $table->string('type');
             $table->string('status');

@@ -26,6 +26,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::get('/home', 'AdminController@index')->name('home');
     Route::get('/sales', 'AdminController@sales')->name('sales');
+    Route::get('/petrol', 'AdminController@petrol')->name('petrol');
 
     Route::get('/products', 'AdminController@products')->name('products');
     Route::post('/products/add', 'ProductController@addProduct')->name('addProduct');
@@ -61,7 +62,7 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::post('/branches/accounts/add', 'AccountsController@addAccount')->name('addAccount');
     Route::post('/branches/accounts/edit', 'AccountsController@editAccount')->name('editAccount');
     Route::post('/branches/accounts/delete', 'AccountsController@deleteAccount')->name('deleteAccount');
-    Route::get('/branches/account/{accountid}', 'AccountsController@viewAccount')->name('viewAccount');
+    Route::get('/branches/account/{branchid}/{accountid}', 'AccountsController@viewAccount')->name('viewAccount');
 
     Route::get('/branches/products/{branchid}', 'BranchController@branchproduct')->name('branchproduct');
     Route::post('/branches/products/add', 'ProductController@addBranchProduct')->name('addBranchProduct');
@@ -74,7 +75,8 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     
     Route::get('/branches/dipping/{branchid}', 'DippingController@branchdipping')->name('branchdipping');
     Route::post('/branches/dipping/add', 'DippingController@addBranchDipping')->name('addBranchDipping');
-    
+    Route::post('/branches/dipping/delete', 'DippingController@deleteBranchDipping')->name('deleteBranchDipping');
+    Route::get('/branches/dipping/save/{branchid}', 'DippingController@saveBranchDipping')->name('saveBranchDipping');
 
     Route::get('/users', 'AdminController@users')->name('users');
     Route::get('/settings', 'AdminController@settings')->name('settings');

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <div class="right_col" role="main">
 <div class="row"> 
 <div class="page-title">
@@ -38,29 +38,33 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                {{ csrf_field() }}                              
-                <div class="input-group col-lg-12">
-                    <label for="Volume">Volume</label>
-                    <input type="text" class="form-control" placeholder="Volume"  aria-describedby="basic-addon2" name="dipvolume" id="dipvolume">
-                    <input type="hidden" name="branchid" value="{{$BranchId}}">
-                </div>
-                <div class="input-group col-lg-12">
-                    <label for="Date">Date</label>
-                    <input type="text" class="form-control"  aria-describedby="basic-addon2" name="dippingdate" id="dippingdate" value="{{ date('m-d-Y')}}">  
-                </div>
-                <div class="input-group col-lg-12">
-                    <label for="Type">Type</label>
-                    <input type="text" class="form-control"  aria-describedby="basic-addon2" name="dippingtype" id="dippingtype" value="{{ $type }}">  
-                </div>
+                {{ csrf_field() }}   
                 
                 <div class="input-group col-lg-12">
                     <label for="Petrol">Petrol</label>
-                    <select name="gastype" id="" class="form-control">
+                    <select name="gastype" id="gastype" class="form-control">
+                    <option value=""></option>
                     @foreach($dataBranchgas as $Branchgas)
-                            <option value="{{$Branchgas->gas['id']}},{{$Branchgas->gas['gasname']}}">{{$Branchgas->gas['gasname']}}</option>
-                        @endforeach
+                            
+                            <option value="{{$Branchgas->gas['id']}},{{$Branchgas->gas['gasname']}}, {{$Branchgas->branchdipping->dipclosevolume}}">{{$Branchgas->gas['gasname']}}</option>
+                    @endforeach
                     </select>
+                </div>                  
+                <div class="input-group col-lg-12">
+                    <label for="Volume">Open Volume</label>
+                    <input type="text" class="form-control" placeholder="Open Volume"  aria-describedby="basic-addon2" name="dipopenvolume" id="dipopenvolume">
                 </div>
+                <div class="input-group col-lg-12">
+                    <label for="Volume">Close Volume</label>
+                    <input type="text" class="form-control" placeholder="Close Volume"  aria-describedby="basic-addon2" name="dipclosevolume" id="dipclosevolume">
+                </div>
+                <div class="input-group col-lg-12">
+                    <label for="Date">Date</label>
+                    <input type="hidden" name="branchid" value="{{$BranchId}}">
+                    <input type="text" class="form-control"  aria-describedby="basic-addon2" name="dippingdate" id="dippingdate" value="{{ date('m-d-Y')}}">  
+                </div>
+               
+                
                 <div class="input-group col-lg-12">
                     <button class="btn btn-primary" type="submit" id="add">Save</button> 
                 </div>
@@ -72,34 +76,46 @@
             <h4>Petrol Tank Dipping</h4>
             <!-- /widget-header -->
             <div class="widget-content">
+                @if (session('success'))
+                    
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <table class="table table-striped table-bordered" id="table">
                     <thead>
                     <tr>
                         
-                        <th> Petrol Name</th>
-                        <th> Volume</th>
-                        <th> Type</th>
-                        <th> Action </th>
+                        <th>Petrol Name</th>
+                        <th>Open Volume</th>
+                        <th>Close Volume</th>
+                        <th>Consume Volume </th>
+                        <th>Action </th>
                     </tr>
                     </thead>
                     <tbody>
                 
                     @forelse($dippingDate as $Dipping)
-                    <tr class="productitem{{$Dipping->id}}">
+                    <tr class="dippingitem{{$Dipping->id}}">
                         
                         <td>{{$Dipping->gas->gasname}}</td>
-                        <td>{{$Dipping->dipvolume}}</td>
-                        <td>{{$Dipping->type}}</td>
+                        <td>{{$Dipping->dipopenvolume}} <em> Ltrs.</em></td>
+                        <td>{{$Dipping->dipclosevolume}} <em> Ltrs.</em></td>
+                        <td>{{$Dipping->dipvolume}} <em> Ltrs.</em></td>
                         <td>
-                            <button class='btn btn-xs btn-danger' data-id='{{$Dipping->id}}'><i class='fa fa-remove'></i></button>
+                            <button class='delete-modal btn btn-xs btn-danger' data-id='{{$Dipping->id}}'><i class='fa fa-remove'></i></button>
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="4" style="text-align:center;"><em>All Petrol Types Available to Branch </em></td></tr>
+                    <tr id="norecord"><td colspan="5" style="text-align:center;"><em>No Records </em></td></tr>
                     @endforelse
                     </tbody>
                 </table>
             </div>
+            
+            <a href="/admin/branches/dipping/save/{{$BranchId}}" class="btn btn-sm btn-success">Save</a>
+            
+            
             <!-- /widget-content --> 
         </div>            
     <!-- /container --> 
@@ -108,56 +124,81 @@
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <h4>Petrolium Products
             
-            </h4>
             <!-- /widget-header -->
             <div class="widget-content">
                 <div class="row">
-                    @foreach($dataBranchgas as $Branchgas)  
-                    <div class="col-md-6 col-sm-12 col-lg-6">
+                    <div class="col-md-6 col-sm-12 col-lg-4">
                         <div class="x_panel tile">
-                            <div class="x_title">
-                                <h4>{{$Branchgas->gas['gasname']}}</h4>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-danger" data-transitiongoal="25" aria-valuenow="25" style="width: 25%;">{{number_format($Branchgas->gas['volume'],2)}} Ltrs.</div>
-                                </div>
-                            </div>
+                        <div class="x_title">
+                        <h4>Petrolium Products</h4>
+                        </div>
                             <div class="clearfix"></div>
                             <div class="x_content">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        
-                                        <th> Pump Name</th>
-                                        <th> Volumetric ( <em style="font-weight:normal;">Ltrs</em> ) </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $totalvolume = 0; ?>                  
-                                    @foreach($Branchgas->gas->branchpump as $Pump)
-                                    <tr>
-                                       
-                                        <td>
-                                            {{$Pump->pumpname}}
-                                        </td>
-                                        <td>
-                                            {{number_format($Pump->volume,2)}}
-                                        </td>          
-                                    </tr>
-                                    <?php 
-                                    $totalvolume = $totalvolume + $Pump->volume;
-                                    ?>
-                                    @endforeach       
-                                    </tbody>
-                                </table>
-                                <div class="x_title">
-                                    <h6>Total Volume: <em>{{$totalvolume}} Ltrs.</em></h6>
-                                </div>
+                            @foreach($dataBranchgas as $Branchgas)  
+                            <h4>{{$Branchgas->gas['gasname']}}</h4>
+                            <?php 
+                            $tankvolume = 24000; 
+                            $tankavailable = $Branchgas->volume;
+                            $tankdiff =   $tankvolume - $tankavailable;
+                            $tankpercent = ($tankdiff / $tankvolume) * 100;
+                            if($tankpercent >= 76){
+                                $tankprogress = "progress-bar-danger";
+                                $tankwidth = 100 - $tankpercent;
+                            }
+                            else if($tankpercent >= 26 && $tankpercent <= 75){
+                                $tankprogress = "progress-bar-warning";   
+                                $tankwidth = 100 - $tankpercent;
+                            }
+                            else if($tankpercent <= 25){
+                                $tankprogress = "progress-bar-success";   
+                                $tankwidth = 100 - $tankpercent;
+                            }
+                            else {
+                                $tankprogress = "progress-bar-info";
+                            }
+                            ?>
+                            <div class="progress">
+                                <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume,2)}} Ltrs.</div>
+                            </div>
+                            @endforeach
                             </div><!--x_content-->
                         </div><!--x_panel-->   
                     </div><!--col-->
-                    @endforeach
+                    <div class="col-md-6 col-sm-12 col-lg-8">
+                    <div class="x_panel tile">
+                        <div class="x_title">
+                            <h4>Dipping History</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="x_content">
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Home</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+                        </li>
+                      </ul>
+                      <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
+                            synth. Cosby sweater eu banh mi, qui irure terr.</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                            booth letterpress, commodo enim craft beer mlkshk aliquip</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                          <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                            booth letterpress, commodo enim craft beer mlkshk </p>
+                        </div>
+                      </div>
+                    </div>
+                        </div><!--x_content-->
+                    </div><!--x_panel-->   
+                </div><!--col-->
                 </div><!--row-->
             </div>
             <!-- /widget-content --> 
@@ -189,7 +230,7 @@
   						<div class="form-group">
   							<label class="control-label col-sm-2" for="product_name" >Product Name:</label>
   							<div class="col-sm-10">
-  								<input type="text" class="form-control" id="productedit_name" name="productedit_name">
+  						<input type="text" class="form-control" id="productedit_name" name="productedit_name">
                 </div>
           
                 </div>

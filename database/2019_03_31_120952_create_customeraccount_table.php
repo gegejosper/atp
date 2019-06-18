@@ -15,6 +15,7 @@ class CreateCustomeraccountTable extends Migration
     {
         Schema::create('customeraccounts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('accountid');
             $table->string('branchid');
             $table->string('name');
             $table->string('invoicenum');

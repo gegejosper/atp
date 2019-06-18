@@ -37,6 +37,12 @@ class AdminController extends Controller
         $dataGastype = Gastype::get();
         return view('admin.gastypes', compact('dataGastype', 'dataBranch'));
     }
+    public function petrol()
+    {   
+        $dataBranch = Branch::with('branchgas.gas')->get();
+        //dd($dataBranch);
+        return view('admin.petrol', compact('dataBranch'));
+    }
     public function pumps()
     {   
         $dataBranch = Branch::get();

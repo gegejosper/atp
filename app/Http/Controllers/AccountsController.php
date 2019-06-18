@@ -8,6 +8,7 @@ use App\Branch;
 use App\User;
 use App\Account;
 use App\Customer;
+use App\Customeraccount;
 use Validator;
 use Response;
 use Illuminate\Support\Facades\Input;
@@ -42,6 +43,14 @@ class AccountsController extends Controller
 
             return response()->json($data);
         }
+    }
+
+    public function viewAccount($branchId, $accountid){
+        $dataAccount = Account::where('id', '=', $accountid)->first();
+        $BranchId = $branchId;
+        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $accountDetails = Customeraccount::where('accountid', '=', $accountid)->get();
+        return view('admin.branch-account', compact('dataBranch', 'dataAccount', 'BranchId', 'accountDetails'));
     }
     public function editAccount(Request $req)
     {

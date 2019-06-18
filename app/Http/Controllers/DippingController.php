@@ -21,6 +21,20 @@ class DippingController extends Controller
     //
     public function branchdipping($branchId)
     {
+        
+        if(session()->has('dippingId')){
+
+        }
+        else {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 10; $i++) {
+                $randomString .= ucwords($characters[rand(0, $charactersLength - 1)]);
+            }
+        
+        session()->put('dippingId', $randomString);
+        }
         $BranchId = $branchId;
         $dataBranch = Branch::where('id', '=', $branchId)->get();
         $dataGastype = Gastype::with('branchpump')->get();
@@ -32,21 +46,25 @@ class DippingController extends Controller
             }
         }
         $dippingDate = Branchdipping::where('dippingdate', '=', date('m-d-Y'))->where('status', '=', 'Initial')->with('gas')->get();
-        if(count($dippingDate) == 0) {
-            $type = 'Open';
-        }
-        else {
-            $type = "Close";
-        }
-        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas.branchpump')->get();
-        //dd($dippingDate);
-        return view('admin.branch-dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'type', 'dippingDate'));
+        
+        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas.branchpump', 'branchdipping')->get();
+        //dd($dataBranchgas);
+        return view('admin.branch-dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'dippingDate'));
     }
-
+    public function saveBranchDipping ($branchid){
+        $updateDipping = Branchdipping::where('dippingsession', '=', session()->get('dippingId'))->where('status', '=', 'Initial')
+                ->update(['status' => 'Final']);
+        //dd($updateDipping);
+        session()->forget('dippingId');
+        return redirect()->back()->with('success', 'Dipping successfully saved!');
+    }
+    
     public function addBranchDipping(Request $request)
     {
         $rules = array(
-                'dipvolume' => 'required'
+                'dipopenvolume' => 'required',
+                'dipclosevolume' => 'required',
+
         );
         $validator = Validator::make(Input::all(), $rules);
         if ($validator->fails()) {
@@ -54,17 +72,27 @@ class DippingController extends Controller
                     'errors' => $validator->getMessageBag()->toArray(),
             ));
         } else {
+            
             $data = new Branchdipping();
-            $data->dipvolume = $request->dipvolume;
+            $dipvolume = $request->dipopenvolume - $request->dipclosevolume; 
+            $data->dipvolume = round($dipvolume, 2);
+            $data->dipopenvolume = $request->dipopenvolume;
+            $data->dipclosevolume = $request->dipclosevolume;
             $data->gasid = $request->gasid;
-            $data->type = $request->dippingtype;
+            $data->type = 'Dipping';
             $data->dippingdate = $request->dippingdate;
             $data->branchid = $request->branchid;
             $data->status = 'Initial';
+            $data->dippingsession = session()->get('dippingId');
             $data->save();
             $data->gasname = $request->gasname;
 
             return response()->json($data);
         }
+    }
+    public function deleteBranchDipping(Request $req)
+    {
+        Branchdipping::find($req->id)->delete();
+        return response()->json();
     }
 }

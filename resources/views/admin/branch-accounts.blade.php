@@ -92,7 +92,7 @@
                     @foreach($dataAccounts as $Account)
                     <tr class="item{{$Account->id}}">
                        
-                        <td><a href="/admin/branches/account/{{$Account->id}}">{{$Account->lname}}, {{$Account->fname}} {{$Account->mname}}</a></td>
+                        <td><a href="/admin/branches/account/{{$BranchId}}/{{$Account->id}}">{{$Account->lname}}, {{$Account->fname}} {{$Account->mname}}</a></td>
                         <td>{{$Account->address}}</td>
                         <td> {{$Account->discount}}</td>
                         <td> {{$Account->tax}}</td>

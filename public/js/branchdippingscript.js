@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    $("#gastype").change(function () {
+        var gas = $('select[name=gastype]').val();
+         var array = gas.split(',');
+         var gasid = array[0];
+         var gasname = array[1]; 
+         var gasvolume = array[2]; 
+       $('#gasid').val(gasid);
+       $('#namegas').val(gasname);
+       $('#dipopenvolume').val(gasvolume);
+        console.log('sss');
+    });
     $(document).on('click', '.edit-modal', function() {
           $('#footer_action_button').text("Update");
           $('#footer_action_button').addClass('glyphicon-check');
@@ -64,13 +75,15 @@ $(document).ready(function() {
         var array = gas.split(',');
         var gasid = array[0];
         var gasname = array[1];
+        var gasvolume = array[2]; 
+        var dippingtype = $( 'input[name=dippingtype]:checked' ).val();
           $.ajax({
               type: 'post',
               url: '/admin/branches/dipping/add',
               data: {
                   '_token': $('input[name=_token]').val(),
-                  'dipvolume': $('input[name=dipvolume]').val(),
-                  'dippingtype': $('input[name=dippingtype]').val(),
+                  'dipopenvolume': $('input[name=dipopenvolume]').val(),
+                  'dipclosevolume': $('input[name=dipclosevolume]').val(),
                   'dippingdate': $('input[name=dippingdate]').val(),
                   'branchid': $('input[name=branchid]').val(),
                   'gasid': gasid,
@@ -90,7 +103,7 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipvolume + "</td><td>" + data.type + "</td><td></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'> Remove</i></a></td></tr>");
+                      $('#table').append("<tr class='dippingitem" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipopenvolume + " <em> Ltrs.</em> </td><td>" + data.dipclosevolume + "<em> Ltrs.</em> </td><td>" + data.dipvolume + "<em> Ltrs.</em></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
                         text: 'Pump successfully Added',
@@ -103,12 +116,15 @@ $(document).ready(function() {
               },
   
           });
-          $('#pumpname').val('');
+          $('#dipopenvolume').val('');
+          $('#dipclosevolume').val('');
+          $('#gastype option:selected').removeAttr('selected');
+          $('#norecord').remove();
       });
       $('.modal-footer').on('click', '.delete', function() {
           $.ajax({
               type: 'post',
-              url: '/admin/branches/pumps/delete',
+              url: '/admin/branches/dipping/delete',
               data: {
                   '_token': $('input[name=_token]').val(),
                   'id': $('.did').text()
@@ -121,7 +137,7 @@ $(document).ready(function() {
                     delay: 2000,
                     styling: 'bootstrap3'
                 });  
-                $('.item' + $('.did').text()).remove();
+                $('.dippingitem' + $('.did').text()).remove();
               }
           });
       });

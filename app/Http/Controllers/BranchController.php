@@ -100,7 +100,7 @@ class BranchController extends Controller
             }
         }
         
-        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas.branchpump')->get();
+        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('branchpump')->get();
         //dd($dataBranchgas);
         return view('admin.branch-gas', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas'));
     }

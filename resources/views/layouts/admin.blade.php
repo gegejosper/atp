@@ -70,6 +70,9 @@
                     <a href="/admin/sales"><i class="fa fa-money"></i> Sales </a> 
                   </li>
                   <li>
+                    <a href="/admin/petrol"><i class="fa fa-beer"></i> Petrol </a> 
+                  </li>
+                  <li>
                     <a href="/admin/sales"><i class="fa fa-users"></i> Accounts </a> 
                   </li>
                   
@@ -94,7 +97,7 @@
                       </li>
                     <li><a href="/admin/settings">Settings</a></li>
                       <li><a href="/admin/gastypes">Gas Types</a></li>
-                      <li><a href="/admin/pumps">Pumps</a></li>
+                      <!-- <li><a href="/admin/pumps">Pumps</a></li> -->
                       <li><a href="/admin/branches">Branches</a></li>
                       <li><a href="/admin/users">Users</a></li>
                     </ul>
