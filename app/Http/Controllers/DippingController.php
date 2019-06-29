@@ -49,12 +49,25 @@ class DippingController extends Controller
         
         $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas.branchpump', 'branchdipping')->get();
         //dd($dataBranchgas);
-        return view('admin.branch-dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'dippingDate'));
+        $getDataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
+
+        $BranchGasDipping= Branchdipping::where('branchid', '=', $BranchId)->where('status', '=', 'Final')->with('gas')->orderBy('created_at', 'desc')->get();
+
+        return view('admin.branch-dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'dippingDate', 'BranchGasDipping'));
     }
     public function saveBranchDipping ($branchid){
+        $BranchId = $branchid;
+        $getDipping = Branchdipping::where('dippingdate', '=', date('m-d-Y'))->where('status', '=', 'Initial')->get();
+        foreach ($getDipping as $Dipping) {
+            $getDataBranchgas = Branchgases::where('branchid', '=', $BranchId)->where('gasid', '=', $Dipping->gasid)->latest()
+            ->first();
+            $updateGasBranch = Branchgases::where('id', '=', $getDataBranchgas->id)
+                ->update(['volume' => $Dipping->dipclosevolume]);
+        }
         $updateDipping = Branchdipping::where('dippingsession', '=', session()->get('dippingId'))->where('status', '=', 'Initial')
                 ->update(['status' => 'Final']);
         //dd($updateDipping);
+        
         session()->forget('dippingId');
         return redirect()->back()->with('success', 'Dipping successfully saved!');
     }

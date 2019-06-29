@@ -54,6 +54,48 @@ $(document).ready(function() {
         });
        
     });
+    $(document).on('click', '.update-modal', function() {
+        $('#footer_update_button').text("Update");
+        $('#footer_update_button').addClass('glyphicon-check');
+        $('#footer_update_button').removeClass('glyphicon-trash');
+        $('.actionBtn').addClass('btn-success');
+        $('.actionBtn').removeClass('btn-danger');
+        $('.actionBtn').addClass('update');
+        $('.modal-title').text('Update Petrol');
+        $('.deleteContent').hide();
+        $('.form-horizontal').show();
+        $('#branchgasid').val($(this).data('gasid'));
+        $('#volumeedit').val($(this).data('volume'));
+        $('#priceedit').val($(this).data('price'));
+
+        $('#updateGasModal').modal('show');
+        //console.log($(this).data('volume') + $(this).data('price'));
+    });
+    $('.modal-footer').on('click', '.update', function() {
+        $.ajax({
+            type: 'post',
+            url: '/admin/branches/gas/update',
+            data: {
+                //_token:$(this).data('token'),
+                '_token': $('input[name=_token]').val(),
+                'id': $("#branchgasid").val(),
+                'volume': $('#volumeedit').val(),
+                'price': $('#priceedit').val(),
+            },
+            success: function(data) {
+               // $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>"+ data.pumpname +"</td><td><em>reload page</em></td><td>"+ data.volume +"</td><td class='td-actions'><button class='edit-modal btn btn-xs btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> </i> Update</button><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i>  Remove</a></td></tr>");
+                //console.log("success");
+                  new PNotify({
+                      title: 'Success',
+                      text: 'Petrol successfully updated',
+                      type: 'info',
+                      delay: 2000,
+                      styling: 'bootstrap3'
+                  }); 
+              }
+              
+        });
+    });
       $('.modal-footer').on('click', '.delete', function() {
           $.ajax({
               type: 'post',

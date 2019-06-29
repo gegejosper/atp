@@ -49,9 +49,13 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::get('/branches/{branchid}', 'BranchController@viewbranch')->name('viewbranch');
     
     Route::get('/branches/pumps/{branchid}', 'BranchController@branchpump')->name('branchpump');
+    Route::get('/branches/pumps/logs/{branchid}/{batchcode}', 'BranchController@viewpumpreading')->name('viewpumpreading');
     Route::post('/branches/pumps/add', 'PumpController@addPump')->name('addPump');
     Route::post('/branches/pumps/edit', 'PumpController@editPump')->name('editPump');
     Route::post('/branches/pumps/delete', 'PumpController@deletePump')->name('deletePump');
+    Route::post('/branches/pumps/savelog', 'PumpController@savepumplog')->name('savepumplog');
+
+    
 
     Route::get('/branches/users/{branchid}', 'BranchController@branchuser')->name('branchuser');
     Route::post('/branches/users/add', 'UserController@addUser')->name('addUser');
@@ -72,6 +76,7 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::get('/branches/gas/{branchid}', 'BranchController@branchgas')->name('branchgas');
     Route::post('/branches/gas/add', 'GastypeController@addBranchGas')->name('addBranchGas');
     Route::post('/branches/gas/delete', 'GastypeController@deleteBranchGas')->name('deleteBranchGas');
+    Route::post('/branches/gas/update', 'GastypeController@updateBranchGas')->name('updateBranchGas');
     
     Route::get('/branches/dipping/{branchid}', 'DippingController@branchdipping')->name('branchdipping');
     Route::post('/branches/dipping/add', 'DippingController@addBranchDipping')->name('addBranchDipping');

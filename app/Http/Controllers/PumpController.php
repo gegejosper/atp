@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Gastype;
 use App\Pump;
+use App\Pumplog;
+use App\Pumprecord;
 use App\User;
 use Validator;
 use Response;
@@ -45,5 +47,33 @@ class PumpController extends Controller
     {
         Pump::find($req->id)->delete();
         return response()->json();
+    }
+
+    public function savepumplog (Request $req) {
+        
+        for($i = 0; $i < count($req->pumpid); $i++){
+            $data = new Pumplog();
+            $data->branchid = $req->branchid;
+            $data->gasid = $req->gasid[$i]; 
+            $data->pumpid = $req->pumpid[$i];
+            $data->consumevolume = $req->consumevolume[$i]; 
+            $data->openvolume = $req->openvolume[$i];
+            $data->closevolume = $req->closevolume[$i]; 
+            $data->unitprice = $req->unitprice[$i];
+            $data->amount = $req->amount[$i]; 
+            $data->batchcode = session()->get('batchcode'); 
+            $data->datelog = date('m-d-Y');
+            $data->status = 'Final';
+            $data->save();
+
+           
+        } 
+        $dataPumprecord = new Pumprecord();
+        $dataPumprecord->branchid = $req->branchid;
+        $dataPumprecord->batchcode = session()->get('batchcode'); 
+        $dataPumprecord->readingdate =  date('m-d-Y');
+        $dataPumprecord->save();
+        session()->forget('batchcode');
+        return redirect()->back()->with('success','Daily log successfully recorded!');
     }
 }

@@ -65,41 +65,42 @@
     </div>
 </div>    
 <div class="row">
-    <div class="col-md-6 col-lg-8 col-sm-12 col-xs-12">
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
         <div class="x_panel">
-            <h4>Petrolium Products
-            
-            </h4>
+            <h4>Petrolium Products</h4>
             <!-- /widget-header -->
             <div class="x_content">
-                            @foreach($dataBranchgas as $Branchgas)  
-                            <h4>{{$Branchgas->gas['gasname']}}</h4>
-                            <?php 
-                            $tankvolume = 24000; 
-                            $tankavailable = $Branchgas->volume;
-                            $tankdiff =   $tankvolume - $tankavailable;
-                            $tankpercent = ($tankdiff / $tankvolume) * 100;
-                            if($tankpercent >= 76){
-                                $tankprogress = "progress-bar-danger";
-                                $tankwidth = 100 - $tankpercent;
-                            }
-                            else if($tankpercent >= 26 && $tankpercent <= 75){
-                                $tankprogress = "progress-bar-warning";   
-                                $tankwidth = 100 - $tankpercent;
-                            }
-                            else if($tankpercent <= 25){
-                                $tankprogress = "progress-bar-success";   
-                                $tankwidth = 100 - $tankpercent;
-                            }
-                            else {
-                                $tankprogress = "progress-bar-info";
-                            }
-                            ?>
-                            <div class="progress">
-                                <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume,2)}} Ltrs.</div>
-                            </div>
-                            @endforeach
-                            </div><!--x_content-->
+                @foreach($dataBranchgas as $Branchgas)  
+                <h4>{{$Branchgas->gas['gasname']}}</h4>
+                <?php 
+                $tankvolume = 24000; 
+                $tankavailable = $Branchgas->volume;
+                $tankdiff =   $tankvolume - $tankavailable;
+                $tankpercent = ($tankdiff / $tankvolume) * 100;
+                if($tankpercent >= 76){
+                    $tankprogress = "progress-bar-danger";
+                    $tankwidth = 100 - $tankpercent;
+                }
+                else if($tankpercent >= 26 && $tankpercent <= 75){
+                    $tankprogress = "progress-bar-warning";   
+                    $tankwidth = 100 - $tankpercent;
+                }
+                else if($tankpercent <= 25){
+                    $tankprogress = "progress-bar-success";   
+                    $tankwidth = 100 - $tankpercent;
+                }
+                else {
+                    $tankprogress = "progress-bar-info";
+                }
+                ?>
+                
+                <label for="">{{number_format($Branchgas->volume,2)}} <em class="cubic"> m<sup>3</sup></em> @ {{$Branchgas->price}} php/L </label> 
+                <button class='update-modal btn btn-xs btn-info' data-gasid='{{$Branchgas->id}}' data-volume='{{$Branchgas->volume}}' data-price='{{$Branchgas->price}}'><i class='fa fa-pencil'></i></button>
+                <div class="progress">
+                    <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume,2)}} <em class="cubic"> m<sup>3</sup></em></div>
+                </div>
+                @endforeach
+            </div><!--x_content-->
             <!-- /widget-content --> 
         </div>            
     <!-- /container --> 
@@ -110,51 +111,89 @@
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
-  		<div class="modal-dialog">
-  			<!-- Modal content-->
-  			<div class="modal-content">
-  				<div class="modal-header">
-  					<button type="button" class="close" data-dismiss="modal">&times;</button>
-  					<h4 class="modal-title"></h4>
-  				</div>
-  				<div class="modal-body">
-  					<form class="form-horizontal" role="form">
-                      {{ csrf_field() }}
-  						<div class="form-group">
-  							
-  							<div class="col-sm-10">
-  								<input type="hidden" class="form-control" id="fid">
-  							</div>
-  						</div>
-  						<div class="form-group">
-  							<label class="control-label col-sm-2" for="product_name" >Product Name:</label>
-  							<div class="col-sm-10">
-  								<input type="text" class="form-control" id="productedit_name" name="productedit_name">
-                </div>
-          
-                </div>
-            
-  					</form>
-  					<div class="deleteContent">
-  						Are you sure you want to delete <span class="dname"></span> ? <span
-  							class="hidden did"></span>
-  					</div>
-  					<div class="modal-footer">
-  						<button type="button" class="btn actionBtn" data-dismiss="modal">
-  							<span id="footer_action_button" class='glyphicon'> </span>
-  						</button>
-  						<button type="button" class="btn btn-warning" data-dismiss="modal">
-  							<span class='glyphicon glyphicon-remove'></span> Close
-  						</button>
-  					</div>
-  				</div>
-  			</div>
-		  </div>
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    {{ csrf_field() }}
+                    <div class="form-group">	
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="fid">
                         </div>
-                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.row -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="product_name" >Product Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="productedit_name" name="productedit_name">
+                        </div>
+                    </div>
+                </form>
+                <div class="deleteContent">
+                    Are you sure you want to delete <span class="dname"></span> ? <span
+                        class="hidden did"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn actionBtn" data-dismiss="modal">
+                        <span id="footer_action_button" class='glyphicon'> </span>
+                    </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Close
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+<div id="updateGasModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    {{ csrf_field() }}
+                    <div class="form-group">	
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="branchgasid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12" for="Price" >Price:</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="priceedit" name="priceedit">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12" for="Volume" >Volume:</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="volumeedit" name="volumeedit">
+                        </div>
+                    </div>
+                </form>
+                <div class="deleteContent">
+                    Are you sure you want to delete <span class="dname"></span> ? <span
+                        class="hidden did"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn actionBtn" data-dismiss="modal">
+                        <span id="footer_update_button" class='glyphicon'> </span>
+                    </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/branchgasscript.js') }}"></script>
 <!-- /main -->

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Branch;
 use App\User;
 use App\Pump;
+use App\Pumplog;
+use App\Pumprecord;
 use App\Gastype;
 use App\Branchgases;
 use App\Customeraccount;
@@ -62,15 +64,49 @@ class BranchController extends Controller
 
     public function branchpump($branchId)
     {
+        
+        if(session()->has('batchcode')){
+
+        }
+        else {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 10; $i++) {
+                $randomString .= ucwords($characters[rand(0, $charactersLength - 1)]);
+            }
+        
+        session()->put('batchcode', $randomString);
+        }
         $BranchId = $branchId;
         $dataBranch = Branch::where('id', '=', $branchId)->get();
-        $dataPump = Pump::where('branchid', '=', $branchId)->with('gastype')->get();
+        $dataPump = Pump::where('branchid', '=', $branchId)->with('gastype', 'pumplog')->get();
         
+        //$dataPumpRecord = Pumplog::where('branchid', '=', $branchId)->groupBy('gasid')->get();
+        $dataPumpReading = Pumprecord::where('branchid', '=', $branchId)->take(10)->orderBy('created_at', 'desc')->get();
+        //$dataPumplogs = Pumplog::where('branchid', '=', $branchId)->groupBy('batchcode')->get();
         $dataGastype = Gastype::get();
-        //dd($dataPump);
-        return view('admin.branch-pump', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId'));
+        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
+        //dd($dataPumpReading);
+        return view('admin.branch-pump', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'dataBranchgas','dataPumpReading'));
         //return response()->json();
     }
+    public function viewpumpreading($branchid,$batchcode)
+    {
+        $BranchId = $branchid;
+        $dataBranch = Branch::where('id', '=', $BranchId)->get();
+           //$dataPumpRecord = Pumplog::where('branchid', '=', $branchId)->groupBy('gasid')->get();
+        $dataPump = Pump::where('branchid', '=', $BranchId)->with('gastype', 'pumplog')->get();
+        $dataPumpReading = Pumprecord::where('branchid', '=', $BranchId)->take(10)->orderBy('created_at', 'desc')->get();
+        $dataPumplogs = Pumplog::where('batchcode', '=', $batchcode)->with('pump')->get();
+        $dataGastype = Gastype::get();
+        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
+        //dd($dataPumplogs);
+        return view('admin.branch-pump-record', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'dataBranchgas','dataPumpReading','dataPumplogs'));
+        //return response()->json();
+    }
+
+    
     public function branchuser($branchId)
     {
         $BranchId = $branchId;

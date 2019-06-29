@@ -39,20 +39,18 @@
             </div>
             <div class="x_content">
                 {{ csrf_field() }}   
-                
                 <div class="input-group col-lg-12">
                     <label for="Petrol">Petrol</label>
                     <select name="gastype" id="gastype" class="form-control">
                     <option value=""></option>
-                    @foreach($dataBranchgas as $Branchgas)
-                            
-                            <option value="{{$Branchgas->gas['id']}},{{$Branchgas->gas['gasname']}}, {{$Branchgas->branchdipping->dipclosevolume}}">{{$Branchgas->gas['gasname']}}</option>
+                    @foreach($dataBranchgas as $Branchgas) 
+                        <option value="{{$Branchgas->gas['id']}},{{$Branchgas->gas['gasname']}}, {{$Branchgas->branchdipping->dipclosevolume}}">{{$Branchgas->gas['gasname']}}</option>
                     @endforeach
                     </select>
                 </div>                  
                 <div class="input-group col-lg-12">
                     <label for="Volume">Open Volume</label>
-                    <input type="text" class="form-control" placeholder="Open Volume"  aria-describedby="basic-addon2" name="dipopenvolume" id="dipopenvolume">
+                    <input type="text" class="form-control" placeholder="Open Volume"  aria-describedby="basic-addon2" name="dipopenvolume" id="dipopenvolume" readonly>
                 </div>
                 <div class="input-group col-lg-12">
                     <label for="Volume">Close Volume</label>
@@ -63,8 +61,6 @@
                     <input type="hidden" name="branchid" value="{{$BranchId}}">
                     <input type="text" class="form-control"  aria-describedby="basic-addon2" name="dippingdate" id="dippingdate" value="{{ date('m-d-Y')}}">  
                 </div>
-               
-                
                 <div class="input-group col-lg-12">
                     <button class="btn btn-primary" type="submit" id="add">Save</button> 
                 </div>
@@ -87,9 +83,9 @@
                     <tr>
                         
                         <th>Petrol Name</th>
-                        <th>Open Volume</th>
-                        <th>Close Volume</th>
-                        <th>Consume Volume </th>
+                        <th>Open Volume <em class="cubic">( Cubic Meter )</em></th>
+                        <th>Close Volume <em  class="cubic">( Cubic Meter )</em></th>
+                        <th>Consume Volume <em  class="cubic">( Cubic Meter )</em></th>
                         <th>Action </th>
                     </tr>
                     </thead>
@@ -99,9 +95,9 @@
                     <tr class="dippingitem{{$Dipping->id}}">
                         
                         <td>{{$Dipping->gas->gasname}}</td>
-                        <td>{{$Dipping->dipopenvolume}} <em> Ltrs.</em></td>
-                        <td>{{$Dipping->dipclosevolume}} <em> Ltrs.</em></td>
-                        <td>{{$Dipping->dipvolume}} <em> Ltrs.</em></td>
+                        <td>{{$Dipping->dipopenvolume}} <em class="cubic"> Liters</em></td>
+                        <td>{{$Dipping->dipclosevolume}} <em class="cubic"> Liters</em></td>
+                        <td>{{$Dipping->dipvolume}} <em class="cubic"> Liters</em></td>
                         <td>
                             <button class='delete-modal btn btn-xs btn-danger' data-id='{{$Dipping->id}}'><i class='fa fa-remove'></i></button>
                         </td>
@@ -159,7 +155,7 @@
                             }
                             ?>
                             <div class="progress">
-                                <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume,2)}} Ltrs.</div>
+                                <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume,2)}} <em class="cubic"> Liters</div>
                             </div>
                             @endforeach
                             </div><!--x_content-->
@@ -174,26 +170,68 @@
                         <div class="x_content">
                         <div class="" role="tabpanel" data-example-id="togglable-tabs">
                       <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Home</a>
-                        </li>
-                        <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
+                      <?php $countHeader = 0;?>  
+                        @foreach($dataBranchgas as $Branchgas)  
+                                <h4></h4>
+                                <?php 
+                                if($countHeader == 0) {
+                                    $addClassHeader ='active'; 
+                                }
+                                else {
+                                    $addClassHeader ='';
+                                }
+                                ?>
+                                <li role="presentation" class="{{$addClassHeader}}"><a href="#{{$Branchgas->gas['gasname']}}" id="{{$Branchgas->gas['gasname']}}-tab" role="tab" data-toggle="tab" aria-expanded="true">{{$Branchgas->gas['gasname']}}</a>
+                                </li>  
+                                <?php $countHeader = $countHeader + 1;?>   
+                        @endforeach
+                        
+                        <!-- <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
                         </li>
                         <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
-                        </li>
+                        </li> -->
                       </ul>
                       <div id="myTabContent" class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-                          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
-                            synth. Cosby sweater eu banh mi, qui irure terr.</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                          <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-                            booth letterpress, commodo enim craft beer mlkshk aliquip</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                          <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-                            booth letterpress, commodo enim craft beer mlkshk </p>
-                        </div>
+                      <?php $count = 0;?>  
+                        @foreach($dataBranchgas as $Branchgas)
+                                <?php 
+                                if($count == 0) {
+                                    $addClass ='active in'; 
+                                }
+                                else {
+                                    $addClass ='';
+                                }
+                                ?>
+                            <div role="tabpanel" class="tab-pane fade {{$addClass}}" id="{{$Branchgas->gas['gasname']}}" aria-labelledby="home-tab">
+                                <table class="table table-striped table-bordered">
+                                   <tr>
+                                        <td>Date</td>
+                                        <td>Open Dipping <em class="cubic">( Liters )</em></td>
+                                        <td>Close Dipping <em class="cubic">( Liters )</em></td>
+                                        <td>Volume Consume <em class="cubic">( Liters )</em></td>
+                                   </tr>
+                                @forelse($BranchGasDipping as $DippingRecord)
+                                    @if($DippingRecord->gasid == $Branchgas->gasid)
+                                    <tr>
+                                        <td>{{$DippingRecord->dippingdate}} </td>
+                                        <td>{{$DippingRecord->dipopenvolume}} <em class="cubic"> Liters</em></td>
+                                        <td>{{$DippingRecord->dipclosevolume}} <em class="cubic"> Liters</em></td>
+                                        <td>{{$DippingRecord->dipvolume}} <em class="cubic"> Liters</em></td>
+                                    </tr>
+                                    @endif
+                                @empty
+                                <tr>
+                                    <td colspan="4">
+                                    <em>No Record</em>
+                                    </td>
+                                </tr>
+                                @endforelse
+                                </table>
+                            </div> 
+                            <?php $count = $count + 1;?> 
+                        @endforeach
+                        
+                        
                       </div>
                     </div>
                         </div><!--x_content-->

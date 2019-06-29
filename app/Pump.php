@@ -11,4 +11,8 @@ class Pump extends Model
     {
         return $this->belongsTo('App\Gastype','gasid','id');
     }
+
+    public function pumplog(){
+        return $this->hasOne('App\Pumplog', 'pumpid', 'id')->latest();
+    }
 }

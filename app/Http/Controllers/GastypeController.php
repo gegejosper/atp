@@ -58,4 +58,13 @@ class GastypeController extends Controller
         Branchgases::find($req->id)->delete();
         return response()->json();
     }
+    public function updateBranchGas(Request $req)
+    {
+        $data = Branchgases::find($req->id);
+        $data->volume = $req->volume; 
+        $data->price = $req->price; 
+        $data->save();
+        return response()->json($data);
+    }
 }
+

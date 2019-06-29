@@ -8,7 +8,6 @@ $(document).ready(function() {
        $('#gasid').val(gasid);
        $('#namegas').val(gasname);
        $('#dipopenvolume').val(gasvolume);
-        console.log('sss');
     });
     $(document).on('click', '.edit-modal', function() {
           $('#footer_action_button').text("Update");
@@ -103,7 +102,7 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='dippingitem" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipopenvolume + " <em> Ltrs.</em> </td><td>" + data.dipclosevolume + "<em> Ltrs.</em> </td><td>" + data.dipvolume + "<em> Ltrs.</em></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
+                      $('#table').append("<tr class='dippingitem" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipopenvolume + " <em class='cubic'> m<sup>3</sup></em> </td><td>" + data.dipclosevolume + "<em class='cubic'> m<sup>3</sup></em> </td><td>" + data.dipvolume + "<em class='cubic'> m<sup>3</sup></em></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
                         text: 'Pump successfully Added',

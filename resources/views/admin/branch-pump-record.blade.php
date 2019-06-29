@@ -113,7 +113,7 @@
         </div>
 
     </div>    
-    <div class="col-md-9 col-lg-9  col-sm-12 col-xs-12">
+    <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12 dailyrecord" id="dailyrecord">
         <div class="x_panel">
             <div class="x_title">
             <h4>Pump Daily Reading  
@@ -130,10 +130,7 @@
             <div class="clearfix"></div>
             </div>
             <div class="x_content">
-            <form action="{{ route('savepumplog') }}" method="post">
-            <input type="hidden" name="branchid" class="form-control" id="branchid" value="{{$BranchId}}">
-            {{ csrf_field() }}
-            <table class="table table-striped table-bordered" id="table">
+                 <table class="table table-striped table-bordered" id="table">
                     <thead>
                     <tr>
                 
@@ -146,38 +143,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($dataPump as $Pump)
+                    @forelse($dataPumplogs as $Pumplog)
                     <tr class="item{{$Pump->id}}">
                         
-                        <td>{{$Pump->pumpname}}</td>
-                        <td>
-                        <input type="hidden" name="pumpid[]" class="form-control" id="pump{{$Pump->id}}" value="{{$Pump->id}}">
-                        <input type="hidden" name="gasid[]" class="form-control" id="gasid{{$Pump->gasid}}" value="{{$Pump->gasid}}">
-                        
-                        <?php if($Pump->pumplog != null) {?>
-                            
-                                <input type="text" name="openvolume[]" class="form-control" id="openvolume{{$Pump->id}}" value="{{$Pump->pumplog['closevolume']}}" readonly></td>
-                            
-                        <?php }
-                        else{
-                        ?>
-                            <input type="text" name="openvolume[]" class="form-control" id="openvolume{{$Pump->id}}" value="0" readonly></td>
-                        
-                        <?php }?>
-                        <td><input type="text" name="closevolume[]" class="form-control" id="closevolume{{$Pump->id}}" ></td>
-                        <td><input type="text" name="consumevolume[]" class="form-control" id="consumevolume{{$Pump->id}}" readonly></td>
-                        <td>
-                        @foreach($dataBranchgas as $branchDetails)
-                            @if($branchDetails->gasid == $Pump->gasid && $branchDetails->branchid == $Pump->branchid)
-                            <input type="text" name="unitprice[]" class="form-control" id="unitprice{{$Pump->id}}" value="{{$branchDetails->price}}" readonly></td>
-                            @endif
-                        @endforeach
-                        <td><input type="text" name="amount[]" class="form-control" id="amount{{$Pump->id}}" readonly></td>
+                        <td>{{$Pumplog->pump->pumpname}}</td>
+                        <td>{{$Pumplog->openvolume}}</td>
+                        <td>{{$Pumplog->closevolume}}</td>
+                        <td>{{$Pumplog->consumevolume}}</td>
+                        <td>{{$Pumplog->unitprice}}</td>
+                        <td>{{$Pumplog->amount}}</td>
                     </tr>
                     @empty
-                    
+                    <tr><td><em>No Data</em></td></tr>
                     @endforelse
-                    <tr><td colspan="6"> <button type="submit" class="btn btn-info btn-small">Save</button></td></tr>
+                    <tr><td colspan="6"> <button onclick="window.print();" class="btn btn-info btn-small">Print</button></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -237,24 +216,26 @@
                     <!-- /.row -->
     </div>
 <script src="{{ asset('js/app.js') }}"></script>
-@foreach($dataPump as $Pump)
+
 <script>
-$(function() {
-    $('#closevolume{{$Pump->id}}').keyup(function() {  
-        updateTotal();
-    });
-    const updateTotal = function () {
-      let closevalue = parseFloat($('#closevolume{{$Pump->id}}').val()).toFixed(2);
-      let openvalue = parseFloat($('#openvolume{{$Pump->id}}').val()).toFixed(2);
-      let consumevolume = closevalue - openvalue;
-      $('#consumevolume{{$Pump->id}}').val(parseFloat(consumevolume).toFixed(2));
-      let unitprice = parseFloat($('#unitprice{{$Pump->id}}').val()).toFixed(2);
-      let amount = consumevolume * unitprice;
-      $('#amount{{$Pump->id}}').val(parseFloat(amount).toFixed(2));
-    };
- });
-</script>
-@endforeach
+function PrintElem(elem)
+{
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title> Print Record</title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById(dailyrecord).innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
 <script src="{{ asset('js/branchpump.js') }}"></script>
 <!-- /main -->
 @endsection
