@@ -6,7 +6,7 @@
 <div class="page-title">
         <div class="title_left">
         <h3>
-            @foreach($dataBranch as $Branch)
+            @foreach($Branches as $Branch)
                 {{$Branch->branchname}} Branch
             @endforeach 
         </h3>
@@ -59,10 +59,7 @@
                 <div class="input-group col-lg-12">
                     <label for="Discount">Discount</label>
                     <input type="text"  placeholder="Discount" class="form-control" aria-describedby="basic-addon2" name="discount" value="0" id="discount">
-                </div>
-
-               
-                
+                </div> 
                 <div class="input-group col-lg-12">
                     <button class="btn btn-primary" type="submit" id="add">Save</button> 
                 </div>
@@ -80,7 +77,6 @@
                 <table class="table table-striped table-bordered" id="table">
                     <thead>
                     <tr>
-                
                         <th> Name</th>
                         <th> Address </th>
                         <th> Discount </th>
@@ -90,8 +86,7 @@
                     </thead>
                     <tbody>
                     @foreach($dataAccounts as $Account)
-                    <tr class="item{{$Account->id}}">
-                       
+                    <tr class="item{{$Account->id}}">   
                         <td><a href="/admin/branches/account/{{$BranchId}}/{{$Account->id}}">{{$Account->lname}}, {{$Account->fname}} {{$Account->mname}}</a></td>
                         <td>{{$Account->address}}</td>
                         <td> {{$Account->discount}}</td>

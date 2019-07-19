@@ -84,7 +84,7 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.pumpname +"</td><td>" + data.gasid + "</td><td></td><td class='td-actions'><button class='edit-modal btn btn-xs btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> Update</i></button><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'> Remove</i></a></td></tr>");
+                      $('#tablepump').append("<tr class='item" + data.id + "'><td>"+ data.pumpname +"</td><td colspan='2'><em>pls. reload</em></td><td class='td-actions'><button class='edit-modal btn btn-xs btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'></i></button><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
                         text: 'Pump successfully Added',

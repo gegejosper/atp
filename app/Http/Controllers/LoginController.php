@@ -20,8 +20,8 @@ class LoginController extends Controller
                 return redirect('admin/home');
                
             }
-            if($user->usertype=='assistant'){
-                return redirect('assistant/home');
+            if($user->usertype=='incharge'){
+                return redirect('incharge/dashboard');
                
             }
             else {

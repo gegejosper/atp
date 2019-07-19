@@ -6,7 +6,7 @@
 <div class="page-title">
         <div class="title_left">
         <h3>
-            @foreach($dataBranch as $Branch)
+            @foreach($Branches as $Branch)
                 {{$Branch->branchname}} Branch
             @endforeach 
         </h3>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3 lg-3 col-sm-12 col-xs-12">
+    <div class="col-md-4 lg-4 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h4>Recent Pump Reading
@@ -81,7 +81,7 @@
                     <button class="btn btn-primary" type="submit" id="add">Save</button> 
                 </div>
                 <h4>Pumps</h4>
-                <table class="table table-striped table-bordered" id="table">
+                <table class="table table-striped table-bordered" id="tablepump">
                     <thead>
                     <tr>
                 
@@ -113,7 +113,7 @@
         </div>
 
     </div>    
-    <div class="col-md-9 col-lg-9  col-sm-12 col-xs-12">
+    <div class="col-md-8 col-lg-8  col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
             <h4>Pump Daily Reading  

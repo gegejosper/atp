@@ -7,7 +7,7 @@
 <div class="page-title">
         <div class="title_left">
         <h3>
-            @foreach($dataBranch as $Branch)
+            @foreach($Branches as $Branch)
                 {{$Branch->branchname}} Branch
             @endforeach 
         </h3>
@@ -30,27 +30,20 @@
         </div>            
 </div>  
 <div class="row">
-    <div class="col-md-4 col-lg-6 col-sm-12 col-xs-12">
+    <div class="col-md-4 col-lg-3 col-sm-12 col-xs-12">
         <div class="x_panel">
             <h4>Petrol</h4>
             <!-- /widget-header -->
             <div class="widget-content">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        
-                        <th> Petrol Name</th>
-                        <th> Action </th>
-                    </tr>
-                    </thead>
+                <table class="table table-striped">
                     <tbody>
                     {{ csrf_field() }}   
                     @forelse($Gas as $Gastype)
                     <tr class="productitem{{$Gastype->id}}">
                         
-                        <td>{{$Gastype->gasname}}</td>
+                        <td>{{$Gastype->gasname}} </td>
                         <td>
-                            <button class='addbranch btn btn-xs btn-success' data-id='{{$Gastype->id}}' data-productname='{{$Gastype->gasname}}' data-branchid='{{$BranchId}}'><i class='fa fa-plus'> Add to Branch</i></button>
+                            <button class='addbranch btn btn-xs btn-success' data-id='{{$Gastype->id}}' data-productname='{{$Gastype->gasname}}' data-branchid='{{$BranchId}}'><i class='fa fa-plus'></i></button>
                         </td>
                     </tr>
                     @empty
@@ -63,9 +56,8 @@
         </div>            
     <!-- /container --> 
     </div>
-</div>    
-<div class="row">
-    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+
+    <div class="col-md-6 col-lg-8 col-sm-12 col-xs-12">
         <div class="x_panel">
             <h4>Petrolium Products</h4>
             <!-- /widget-header -->

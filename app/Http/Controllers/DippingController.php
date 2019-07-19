@@ -36,7 +36,8 @@ class DippingController extends Controller
         session()->put('dippingId', $randomString);
         }
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataGastype = Gastype::with('branchpump')->get();
         $Gas = array();
         foreach($dataGastype as $gastype){
@@ -53,7 +54,7 @@ class DippingController extends Controller
 
         $BranchGasDipping= Branchdipping::where('branchid', '=', $BranchId)->where('status', '=', 'Final')->with('gas')->orderBy('created_at', 'desc')->get();
 
-        return view('admin.branch-dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'dippingDate', 'BranchGasDipping'));
+        return view('admin.branch-dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'dippingDate', 'BranchGasDipping', 'Branches'));
     }
     public function saveBranchDipping ($branchid){
         $BranchId = $branchid;
@@ -87,10 +88,11 @@ class DippingController extends Controller
         } else {
             
             $data = new Branchdipping();
-            $dipvolume = $request->dipopenvolume - $request->dipclosevolume; 
+            $dipvolume = ($request->dipopenvolume - $request->dipclosevolume) + $request->deliveryvolume; 
             $data->dipvolume = round($dipvolume, 2);
             $data->dipopenvolume = $request->dipopenvolume;
             $data->dipclosevolume = $request->dipclosevolume;
+            $data->deliveryvolume = $request->deliveryvolume;
             $data->gasid = $request->gasid;
             $data->type = 'Dipping';
             $data->dippingdate = $request->dippingdate;

@@ -7,7 +7,7 @@
 <div class="page-title">
         <div class="title_left">
         <h3>
-            @foreach($dataBranch as $Branch)
+            @foreach($Branches as $Branch)
                 {{$Branch->branchname}} Branch
             @endforeach 
         </h3>
@@ -43,18 +43,25 @@
                     <label for="Petrol">Petrol</label>
                     <select name="gastype" id="gastype" class="form-control">
                     <option value=""></option>
-                    @foreach($dataBranchgas as $Branchgas) 
+                    @forelse($dataBranchgas as $Branchgas) 
                         <option value="{{$Branchgas->gas['id']}},{{$Branchgas->gas['gasname']}}, {{$Branchgas->branchdipping->dipclosevolume}}">{{$Branchgas->gas['gasname']}}</option>
-                    @endforeach
+                    
+                    @empty
+
+                    @endforelse
                     </select>
                 </div>                  
                 <div class="input-group col-lg-12">
                     <label for="Volume">Open Volume</label>
-                    <input type="text" class="form-control" placeholder="Open Volume"  aria-describedby="basic-addon2" name="dipopenvolume" id="dipopenvolume" readonly>
+                    <input type="text" class="form-control" placeholder="Open Volume"  aria-describedby="basic-addon2" name="dipopenvolume" id="dipopenvolume">
                 </div>
                 <div class="input-group col-lg-12">
                     <label for="Volume">Close Volume</label>
                     <input type="text" class="form-control" placeholder="Close Volume"  aria-describedby="basic-addon2" name="dipclosevolume" id="dipclosevolume">
+                </div>
+                <div class="input-group col-lg-12">
+                    <label for="Delivery">Delivery</label>
+                    <input type="text" class="form-control"  aria-describedby="basic-addon2" name="deliveryvolume" id="deliveryvolume" value="0">  
                 </div>
                 <div class="input-group col-lg-12">
                     <label for="Date">Date</label>
@@ -82,10 +89,12 @@
                     <thead>
                     <tr>
                         
-                        <th>Petrol Name</th>
-                        <th>Open Volume <em class="cubic">( Cubic Meter )</em></th>
-                        <th>Close Volume <em  class="cubic">( Cubic Meter )</em></th>
-                        <th>Consume Volume <em  class="cubic">( Cubic Meter )</em></th>
+                        <th>Petrol</th>
+                        <th>Open Vol. <em class="cubic">( m <sup>3</sup> )</em></th>
+                        <th>Delivery Vol.<em  class="cubic">( m <sup>3</sup> )</em></th>
+                        <th>Close Vol. <em  class="cubic">( m <sup>3</sup> )</em></th>
+                        <th>Consume Vol. <em  class="cubic">( m <sup>3</sup> )</em></th>
+                        
                         <th>Action </th>
                     </tr>
                     </thead>
@@ -96,6 +105,7 @@
                         
                         <td>{{$Dipping->gas->gasname}}</td>
                         <td>{{$Dipping->dipopenvolume}} <em class="cubic"> Liters</em></td>
+                        <td>{{$Dipping->deliveryvolume}} <em class="cubic"> Liters</em></td>
                         <td>{{$Dipping->dipclosevolume}} <em class="cubic"> Liters</em></td>
                         <td>{{$Dipping->dipvolume}} <em class="cubic"> Liters</em></td>
                         <td>
@@ -103,7 +113,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr id="norecord"><td colspan="5" style="text-align:center;"><em>No Records </em></td></tr>
+                    <tr id="norecord"><td colspan="6" style="text-align:center;"><em>No Records </em></td></tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -207,6 +217,7 @@
                                    <tr>
                                         <td>Date</td>
                                         <td>Open Dipping <em class="cubic">( Liters )</em></td>
+                                        <td>Delivery <em class="cubic">( Liters )</em></td>
                                         <td>Close Dipping <em class="cubic">( Liters )</em></td>
                                         <td>Volume Consume <em class="cubic">( Liters )</em></td>
                                    </tr>
@@ -215,6 +226,7 @@
                                     <tr>
                                         <td>{{$DippingRecord->dippingdate}} </td>
                                         <td>{{$DippingRecord->dipopenvolume}} <em class="cubic"> Liters</em></td>
+                                        <td>{{$DippingRecord->deliveryvolume}} <em class="cubic"> Liters</em></td>
                                         <td>{{$DippingRecord->dipclosevolume}} <em class="cubic"> Liters</em></td>
                                         <td>{{$DippingRecord->dipvolume}} <em class="cubic"> Liters</em></td>
                                     </tr>

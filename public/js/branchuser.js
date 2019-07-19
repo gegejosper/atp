@@ -40,6 +40,7 @@ $(document).ready(function() {
                   '_token': $('input[name=_token]').val(),
                   'id': $("#fid").val(),
                   'fullname': $('#edit_name').val(),
+                  'username': $('#edit_username').val(),
                   'email': $('#edit_email').val(),
                   'password': $('#edit_password').val()
 
@@ -67,6 +68,7 @@ $(document).ready(function() {
               data: {
                   '_token': $('input[name=_token]').val(),
                   'fullname': $('input[name=fullname]').val(),
+                  'username': $('input[name=username]').val(),
                   'email': $('input[name=email]').val(),
                   'password': $('input[name=password]').val(),
                   'branchid': $('input[name=branchid]').val()
@@ -87,7 +89,7 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.name +"</td><td>" + data.email + "</td><td><em>Hidden</em></td><td class='td-actions'><button class='edit-modal btn btn-small btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> Edit</i></button><a class='delete-modal btn btn-danger btn-small' data-id='" + data.id + "'><i class='fa fa-times'> Remove</i></a></td></tr>");
+                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.name +"</td><td>"+ data.username +"</td><td>" + data.email + "</td><td><em>Hidden</em></td><td class='td-actions'><button class='edit-modal btn btn-small btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> Edit</i></button><a class='delete-modal btn btn-danger btn-small' data-id='" + data.id + "'><i class='fa fa-times'> Remove</i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
                         text: 'Branch user successfully Added',

@@ -84,6 +84,7 @@ $(document).ready(function() {
                   'dipopenvolume': $('input[name=dipopenvolume]').val(),
                   'dipclosevolume': $('input[name=dipclosevolume]').val(),
                   'dippingdate': $('input[name=dippingdate]').val(),
+                  'deliveryvolume': $('input[name=deliveryvolume]').val(),
                   'branchid': $('input[name=branchid]').val(),
                   'gasid': gasid,
                   'gasname': gasname
@@ -102,7 +103,7 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='dippingitem" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipopenvolume + " <em class='cubic'> m<sup>3</sup></em> </td><td>" + data.dipclosevolume + "<em class='cubic'> m<sup>3</sup></em> </td><td>" + data.dipvolume + "<em class='cubic'> m<sup>3</sup></em></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
+                      $('#table').append("<tr class='dippingitem" + data.id + "'><td>"+ data.gasname +"</td><td>" + data.dipopenvolume + " <em class='cubic'> Liters</em> </td><td>" + data.deliveryvolume + " <em class='cubic'> Liters</em> </td><td>" + data.dipclosevolume + "<em class='cubic'> Liters</em> </td><td>" + data.dipvolume + "<em class='cubic'> Liters</em></td><td class='td-actions'><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
                         text: 'Pump successfully Added',
@@ -117,6 +118,7 @@ $(document).ready(function() {
           });
           $('#dipopenvolume').val('');
           $('#dipclosevolume').val('');
+          $('#deliveryvolume').val('0');
           $('#gastype option:selected').removeAttr('selected');
           $('#norecord').remove();
       });

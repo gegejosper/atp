@@ -6,7 +6,7 @@
 <div class="page-title">
         <div class="title_left">
         <h3>
-            @foreach($dataBranch as $Branch)
+            @foreach($Branches as $Branch)
                 {{$Branch->branchname}} Branch
             @endforeach 
         </h3>
@@ -42,12 +42,16 @@
                     <input type="text" class="form-control" placeholder="Full Name"  aria-describedby="basic-addon2" name="fullname">
                     <input type="hidden" name="branchid" value="{{$BranchId}}">
                 </div>
+                <div class="input-group col-lg-12">
+                    <input type="text" class="form-control" placeholder="Username"  aria-describedby="basic-addon2" name="username">
+                    
+                </div>
                 
                 <div class="input-group col-lg-12">
                     <input type="email" class="form-control" placeholder="Email"  aria-describedby="basic-addon2" name="email">
                 </div>
                 <div class="input-group col-lg-12">
-                    <input type="password" class="form-control" aria-describedby="basic-addon2" name="password">
+                    <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" name="password">
                 </div>
                 
                 <div class="input-group col-lg-12">
@@ -64,14 +68,15 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table class="table table-striped table-bordered" id="table">
+                <table class="table table-striped" id="table">
                     <thead>
                     <tr>
                 
                         <th> Name</th>
+                        <th> Username</th>
                         <th> Email </th>
                         <th> Password </th>
-                        <th> Action </th>
+                        <th> </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -79,11 +84,12 @@
                     <tr class="item{{$Cashier->user->id}}">
                        
                         <td>{{$Cashier->user->name}}</td>
+                        <td>{{$Cashier->user->username}}</td>
                         <td>{{$Cashier->user->email}}</td>
                         <td> <em>Hidden</em></td>
                         <td class='td-actions'>
-                            <button class='edit-modal btn btn-small btn-success' data-id='{{$Cashier->user->id}}' data-name='{{$Cashier->user->name}}' data-email='{{$Cashier->user->email}}'><i class='fa fa-pencil'> Edit</i></button>
-                            <a class='delete-modal btn btn-danger btn-small' data-id='{{$Cashier->user->id}}'><i class='fa fa-times'>Remove</i></a>
+                            <button class='edit-modal btn btn-small btn-success' data-id='{{$Cashier->user->id}}' data-name='{{$Cashier->user->name}}' data-email='{{$Cashier->user->email}}'><i class='fa fa-pencil'> </i></button>
+                            <a class='delete-modal btn btn-danger btn-small' data-id='{{$Cashier->user->id}}'><i class='fa fa-times'></i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -116,6 +122,12 @@
   							<label class="col-sm-12 " for="full_name" >Full Name:</label>
   							<div class="col-sm-12">
   								<input type="text" class="form-control" id="edit_name" name="edit_name">
+                            </div>
+                        </div>
+                        <div class="form-group align-left">
+  							<label class="col-sm-12 " for="full_name" >Username:</label>
+  							<div class="col-sm-12">
+  								<input type="text" class="form-control" id="edit_username" name="edit_username">
                             </div>
                         </div>
                         <div class="form-group align-left">

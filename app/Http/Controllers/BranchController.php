@@ -55,10 +55,11 @@ class BranchController extends Controller
     public function viewbranch($branchId)
     {
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataPump = Pump::where('branchid', '=', $branchId)->get();
         $dataGastype = Gastype::get();
-        return view('admin.branch', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId'));
+        return view('admin.branch', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'Branches'));
         //return response()->json();
     }
 
@@ -79,7 +80,8 @@ class BranchController extends Controller
         session()->put('batchcode', $randomString);
         }
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataPump = Pump::where('branchid', '=', $branchId)->with('gastype', 'pumplog')->get();
         
         //$dataPumpRecord = Pumplog::where('branchid', '=', $branchId)->groupBy('gasid')->get();
@@ -88,13 +90,14 @@ class BranchController extends Controller
         $dataGastype = Gastype::get();
         $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
         //dd($dataPumpReading);
-        return view('admin.branch-pump', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'dataBranchgas','dataPumpReading'));
+        return view('admin.branch-pump', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'dataBranchgas','dataPumpReading', 'Branches'));
         //return response()->json();
     }
     public function viewpumpreading($branchid,$batchcode)
     {
         $BranchId = $branchid;
-        $dataBranch = Branch::where('id', '=', $BranchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
            //$dataPumpRecord = Pumplog::where('branchid', '=', $branchId)->groupBy('gasid')->get();
         $dataPump = Pump::where('branchid', '=', $BranchId)->with('gastype', 'pumplog')->get();
         $dataPumpReading = Pumprecord::where('branchid', '=', $BranchId)->take(10)->orderBy('created_at', 'desc')->get();
@@ -102,7 +105,7 @@ class BranchController extends Controller
         $dataGastype = Gastype::get();
         $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
         //dd($dataPumplogs);
-        return view('admin.branch-pump-record', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'dataBranchgas','dataPumpReading','dataPumplogs'));
+        return view('admin.branch-pump-record', compact('dataBranch', 'dataPump', 'dataGastype', 'BranchId', 'dataBranchgas','dataPumpReading','dataPumplogs', 'Branches'));
         //return response()->json();
     }
 
@@ -110,23 +113,26 @@ class BranchController extends Controller
     public function branchuser($branchId)
     {
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataCashier = Cashier::where('branchid', '=', $branchId)->with('user')->get();
-        return view('admin.branch-user', compact('dataBranch', 'dataCashier', 'BranchId'));
+        return view('admin.branch-user', compact('dataBranch', 'dataCashier', 'BranchId', 'Branches'));
     }
 
     public function branchaccounts($branchId)
     {
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataAccounts = Account::where('branchid', '=', $branchId)->get();
-        return view('admin.branch-accounts', compact('dataBranch', 'dataAccounts', 'BranchId'));
+        return view('admin.branch-accounts', compact('dataBranch', 'dataAccounts', 'BranchId', 'Branches'));
     }
 
     public function branchgas($branchId)
     {
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataGastype = Gastype::with('branchpump')->get();
         $Gas = array();
         foreach($dataGastype as $gastype){
@@ -138,12 +144,13 @@ class BranchController extends Controller
         
         $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('branchpump')->get();
         //dd($dataBranchgas);
-        return view('admin.branch-gas', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas'));
+        return view('admin.branch-gas', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'Branches'));
     }
     public function branchproduct($branchId)
     {
         $BranchId = $branchId;
-        $dataBranch = Branch::where('id', '=', $branchId)->get();
+        $dataBranch = Branch::get();
+        $Branches = Branch::where('id','=', $BranchId)->get();
         $dataProduct = Product::all();
         $Products = array();
         foreach($dataProduct as $Product){
@@ -154,7 +161,7 @@ class BranchController extends Controller
         }
         //dd($Gas);
         $dataBranchproducts = Branchproduct::where('branchid', '=', $BranchId)->with('product')->get();
-        return view('admin.branch-product', compact('dataBranch', 'dataProduct', 'BranchId', 'dataBranchproducts', 'Products'));
+        return view('admin.branch-product', compact('dataBranch', 'dataProduct', 'BranchId', 'dataBranchproducts', 'Products', 'Branches'));
     }
 
     

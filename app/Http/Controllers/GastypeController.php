@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Gastype;
 use App\Branchgases;
+use App\Branchdipping;
 use App\User;
 use Validator;
 use Response;
@@ -50,6 +51,18 @@ class GastypeController extends Controller
             $data->status = 'active';
             $data->save();
 
+            $dataDipping = new Branchdipping();
+            $dataDipping->dipvolume = 0;
+            $dataDipping->dipopenvolume = 0;
+            $dataDipping->dipclosevolume = 0;
+            $dataDipping->deliveryvolume = 0;
+            $dataDipping->gasid = $req->gasid;
+            $dataDipping->type = 'INITIAL';
+            $dataDipping->dippingdate = date('m-d-Y');
+            $dataDipping->branchid = $req->branchid;
+            $dataDipping->status = 'Final';
+            $dataDipping->dippingsession = 'INITIAL';
+            $dataDipping->save();
             return response()->json($data);
     }
 

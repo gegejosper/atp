@@ -20,6 +20,7 @@ class UserController extends Controller
     {
         $rules = array(
             'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required'
         );
@@ -32,7 +33,8 @@ class UserController extends Controller
         } else {
             $data = new User();
             $data->name = strtoupper($request->fullname);
-            $data->usertype = 'cashier';
+            $data->username = $request->username;
+            $data->usertype = 'incharge';
             $data->email = $request->email;
             $data->password = bcrypt($request->password);
             $data->save();
@@ -49,6 +51,7 @@ class UserController extends Controller
     {
         $data = User::find($req->id);
         $data->name = strtoupper($req->fullname);
+        $data->username = $req->username;
         $data->email = $req->email;
         if(!empty($req->password)){
             $data->password = bcrypt($req->password);

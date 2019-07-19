@@ -35,6 +35,12 @@
                 <span class="glyphicon-class">Accounts</span>
             </li>
         </a>
+        <a href="/admin/branches/reports/{{$BranchId}}">
+            <li>
+                <span class="glyphicon fa fa-book" aria-hidden="true"></span>
+                <span class="glyphicon-class">Report</span>
+            </li>
+        </a>
     </ul>
 </div>
 

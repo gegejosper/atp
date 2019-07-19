@@ -28,6 +28,13 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::get('/sales', 'AdminController@sales')->name('sales');
     Route::get('/petrol', 'AdminController@petrol')->name('petrol');
 
+    Route::get('/order', 'AdminController@order')->name('order');
+    Route::post('/order/createpurchase', 'PurchaseController@createpurchase')->name('createpurchase');
+    Route::get('/order/createpurchase/{prnumber}/{branchid}', 'PurchaseController@createpurchaserequest')->name('createpurchaserequest');
+    Route::post('/order/addquantityrequest/', 'PurchaseController@addquantityrequest')->name('addquantityrequest');
+    //Route::get('/createpurchase', 'PurchaseController@createpurchase')->name('createpurchaserequest');
+    
+
     Route::get('/products', 'AdminController@products')->name('products');
     Route::post('/products/add', 'ProductController@addProduct')->name('addProduct');
     Route::post('/products/edit', 'ProductController@editProduct')->name('editProduct');
@@ -85,6 +92,14 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
 
     Route::get('/users', 'AdminController@users')->name('users');
     Route::get('/settings', 'AdminController@settings')->name('settings');
-    
+
+});
+
+Route::group(['middleware' =>'inchargeAuth','prefix' => 'incharge'], function(){
+    Route::get('/dashboard', 'InchargeController@index')->name('inchargedashboard');
+    Route::get('/pumps', 'InchargeController@pumps')->name('inchargepumps');
+    Route::get('/accounts', 'InchargeController@accounts')->name('inchargeaccounts');
+    Route::get('/dipping', 'InchargeController@dipping')->name('inchargedipping');
+    Route::get('/report', 'InchargeController@report')->name('inchargereport');
 
 });

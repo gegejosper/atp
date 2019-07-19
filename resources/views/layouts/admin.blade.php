@@ -70,6 +70,10 @@
                     <a href="/admin/sales"><i class="fa fa-money"></i> Sales </a> 
                   </li>
                   <li>
+                    <a href="/admin/order"><i class="fa fa-shopping-cart"></i> Order </a> 
+                  </li>
+
+                  <li>
                     <a href="/admin/petrol"><i class="fa fa-beer"></i> Petrol </a> 
                   </li>
                   <li>

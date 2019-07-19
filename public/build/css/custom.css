@@ -4316,9 +4316,9 @@ body {
     
 }
 .cubic {
-    font-size: 10px;
-    font-style: oblique;
-    font-weight: 100;
+    font-size: 12px;
+    font-style: initial;
+    font-weight: 300;
 }
 @media print {
     .myDivToPrint {

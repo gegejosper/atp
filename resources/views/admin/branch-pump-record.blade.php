@@ -6,7 +6,7 @@
 <div class="page-title">
         <div class="title_left">
         <h3>
-            @foreach($dataBranch as $Branch)
+            @foreach($Branches as $Branch)
                 {{$Branch->branchname}} Branch
             @endforeach 
         </h3>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3 lg-3 col-sm-12 col-xs-12">
+    <div class="col-md-4 lg-4 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
                 <h4>Recent Pump Reading
@@ -57,63 +57,9 @@
                 </table>
             </div>
         </div>
-        <div class="x_panel">
-            <div class="x_title">
-                <h4>Add Pump   
-                </h4>
-                <div class="clearfix"></div>
-            </div>
-           
-            <div class="x_content">
-                {{ csrf_field() }}                              
-                <div class="input-group col-lg-12">
-                    <input type="text" class="form-control" placeholder="Pump Name"  aria-describedby="basic-addon2" name="pumpname" id="pumpname">
-                    <input type="hidden" name="branchid" value="{{$BranchId}}">
-                </div>
-                <div class="input-group col-lg-12">
-                    <select name="gastype" id="" class="form-control">
-                        @foreach($dataGastype as $Gastype)
-                            <option value="{{$Gastype->id}}">{{$Gastype->gasname}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="input-group col-lg-12">
-                    <button class="btn btn-primary" type="submit" id="add">Save</button> 
-                </div>
-                <h4>Pumps</h4>
-                <table class="table table-striped table-bordered" id="table">
-                    <thead>
-                    <tr>
-                
-                        
-                        <th> Name</th>
-                        <th> Petrol Type </th>
-                        <th> Volumetric</th>
-                        <th> Action </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($dataPump as $Pump)
-                    <tr class="item{{$Pump->id}}">
-                       
-                        <td>{{$Pump->pumpname}}</td>
-                        <td>{{$Pump->gastype->gasname}}</td>
-                        <td>{{number_format($Pump->volume,2)}} <em>ltrs</em> </td>
-                        <td>
-                            <button class='edit-modal btn btn-xs btn-success' data-id='{{$Pump->id}}' data-name='{{$Pump->pumpname}}' data-volume='{{$Pump->volume}}' data-gasname='{{$Pump->gastype->gasname}}'><i class='fa fa-pencil'></i></button>
-                            <a class='delete-modal btn btn-danger btn-xs' data-id='{{$Pump->id}}'><i class='fa fa-times'></i></a>
-                        </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
 
     </div>    
-    <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12 dailyrecord" id="dailyrecord">
+    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12 dailyrecord" id="dailyrecord">
         <div class="x_panel">
             <div class="x_title">
             <h4>Pump Daily Reading  
@@ -130,7 +76,7 @@
             <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                 <table class="table table-striped table-bordered" id="table">
+                 <table class="table table-striped " id="table">
                     <thead>
                     <tr>
                 
@@ -143,19 +89,24 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <?php $totalAmount =0 ;?>
                     @forelse($dataPumplogs as $Pumplog)
-                    <tr class="item{{$Pump->id}}">
+                    <tr class="item{{$Pumplog->id}}">
                         
                         <td>{{$Pumplog->pump->pumpname}}</td>
                         <td>{{$Pumplog->openvolume}}</td>
                         <td>{{$Pumplog->closevolume}}</td>
                         <td>{{$Pumplog->consumevolume}}</td>
-                        <td>{{$Pumplog->unitprice}}</td>
-                        <td>{{$Pumplog->amount}}</td>
+                        <td>{{number_format($Pumplog->unitprice, 2)}}</td>
+                        <td>{{number_format($Pumplog->amount,2)}}</td>
+                        <?php 
+                            $totalAmount = $totalAmount + $Pumplog->amount;
+                        ?>
                     </tr>
                     @empty
                     <tr><td><em>No Data</em></td></tr>
                     @endforelse
+                    <tr><td colspan="5" class="text-right">Total</td><td><strong>{{number_format($totalAmount, 2)}}</strong></td></tr>
                     <tr><td colspan="6"> <button onclick="window.print();" class="btn btn-info btn-small">Print</button></td></tr>
                     </tbody>
                 </table>

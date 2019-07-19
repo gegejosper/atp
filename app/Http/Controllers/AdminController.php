@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Branch;
 use App\Product;
 use App\Gastype;
+use App\Purchase;
 
 class AdminController extends Controller
 {
@@ -43,6 +44,16 @@ class AdminController extends Controller
         //dd($dataBranch);
         return view('admin.petrol', compact('dataBranch'));
     }
+
+    public function order()
+    {   
+        $dataPurchase = Purchase::take(1)->latest()->get();
+        $dataBranch = Branch::with('branchgas.gas')->get();
+        //dd($dataBranch);
+        
+        return view('admin.order', compact('dataPurchase', 'dataBranch'));
+    }
+
     public function pumps()
     {   
         $dataBranch = Branch::get();
