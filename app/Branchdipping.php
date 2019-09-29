@@ -11,4 +11,5 @@ class Branchdipping extends Model
     {
         return $this->belongsTo('App\Gastype','gasid','id');
     }
+    
 }

@@ -24,6 +24,10 @@ class LoginController extends Controller
                 return redirect('incharge/dashboard');
                
             }
+            if($user->usertype=='billing'){
+                return redirect('billing/dashboard');
+               
+            }
             else {
                 return redirect('/');
             }

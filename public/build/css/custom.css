@@ -4334,3 +4334,21 @@ body {
         line-height: 18px;
     }
 }
+.select2-container {
+    width: 100% !important;
+}
+ul.bar_tabs>li a {
+    padding: 10px 8px !important;
+}
+ul.bar_tabs>li {
+    margin-left: 4px !important;
+
+}
+ul.bar_tabs {
+    padding-left: 5px !important;
+}
+
+.panel_toolbox.dashboard-panel {
+    float: right;
+    min-width: 0px;
+}

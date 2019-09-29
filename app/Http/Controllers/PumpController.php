@@ -11,6 +11,7 @@ use App\User;
 use Validator;
 use Response;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 class PumpController extends Controller
 {
@@ -50,11 +51,16 @@ class PumpController extends Controller
     }
 
     public function savepumplog (Request $req) {
-        
+        if (Auth::check())
+            {
+                $userId = Auth::user()->id;
+            }
         for($i = 0; $i < count($req->pumpid); $i++){
             $data = new Pumplog();
             $data->branchid = $req->branchid;
             $data->gasid = $req->gasid[$i]; 
+            $data->userid = $userId;
+            $data->logsession = 'ADMIN';
             $data->pumpid = $req->pumpid[$i];
             $data->consumevolume = $req->consumevolume[$i]; 
             $data->openvolume = $req->openvolume[$i];

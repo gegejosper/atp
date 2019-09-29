@@ -53,6 +53,13 @@
                 <div class="input-group col-lg-12">
                     <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" name="password">
                 </div>
+                <div class="input-group col-lg-12">
+                    <select name="usertype" id="usertype" class="form-control">
+                        <option value="incharge">In-Charge</option>
+                        <option value="billing">Billing</option>
+                    </select>
+                    
+                </div>
                 
                 <div class="input-group col-lg-12">
                     <button class="btn btn-primary" type="submit" id="add">Save</button> 
@@ -75,21 +82,21 @@
                         <th> Name</th>
                         <th> Username</th>
                         <th> Email </th>
-                        <th> Password </th>
+                        <th> Usertype </th>
                         <th> </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($dataCashier as $Cashier)
-                    <tr class="item{{$Cashier->user->id}}">
+                    @foreach($branchUsers as $User)
+                    <tr class="item{{$User->user->id}}">
                        
-                        <td>{{$Cashier->user->name}}</td>
-                        <td>{{$Cashier->user->username}}</td>
-                        <td>{{$Cashier->user->email}}</td>
-                        <td> <em>Hidden</em></td>
+                        <td>{{$User->user->name}}</td>
+                        <td>{{$User->user->username}}</td>
+                        <td>{{$User->user->email}}</td>
+                        <td> {{$User->user->usertype}}</td>
                         <td class='td-actions'>
-                            <button class='edit-modal btn btn-small btn-success' data-id='{{$Cashier->user->id}}' data-name='{{$Cashier->user->name}}' data-email='{{$Cashier->user->email}}'><i class='fa fa-pencil'> </i></button>
-                            <a class='delete-modal btn btn-danger btn-small' data-id='{{$Cashier->user->id}}'><i class='fa fa-times'></i></a>
+                            <button class='edit-modal btn btn-small btn-success' data-id='{{$User->user->id}}' data-name='{{$User->user->name}}' data-username='{{$User->user->username}}' data-email='{{$User->user->email}}'><i class='fa fa-pencil'> </i></button>
+                            <a class='delete-modal btn btn-danger btn-small' data-id='{{$User->user->id}}'><i class='fa fa-times'></i></a>
                         </td>
                     </tr>
                     @endforeach

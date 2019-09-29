@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Branch;
+use App\Branchuser;
 use App\User;
 use App\Pump;
 use App\Pumplog;
@@ -115,8 +116,9 @@ class BranchController extends Controller
         $BranchId = $branchId;
         $dataBranch = Branch::get();
         $Branches = Branch::where('id','=', $BranchId)->get();
+        $branchUsers = Branchuser::where('branchid','=', $BranchId)->get();
         $dataCashier = Cashier::where('branchid', '=', $branchId)->with('user')->get();
-        return view('admin.branch-user', compact('dataBranch', 'dataCashier', 'BranchId', 'Branches'));
+        return view('admin.branch-user', compact('dataBranch', 'dataCashier', 'BranchId', 'Branches', 'branchUsers'));
     }
 
     public function branchaccounts($branchId)

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Branch;
 use App\User;
+use App\Branchuser;
 use App\Cashier;
 use App\Gastype;
 use App\Pump;
@@ -34,12 +35,12 @@ class UserController extends Controller
             $data = new User();
             $data->name = strtoupper($request->fullname);
             $data->username = $request->username;
-            $data->usertype = 'incharge';
+            $data->usertype = $request->usertype;
             $data->email = $request->email;
             $data->password = bcrypt($request->password);
             $data->save();
 
-            $dataBranch = new Cashier();
+            $dataBranch = new Branchuser();
             $dataBranch->branchid = $request->branchid;
             $dataBranch->userid = $data->id;
             $dataBranch->status = 'active';

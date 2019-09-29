@@ -70,21 +70,19 @@
                 <h3>Main Menu</h3>
                 <ul class="nav side-menu">
                   <li>
-                    <a href="/incharge/dashboard"><i class="fa fa-home"></i> Home </a> 
+                    <a href="/billing/dashboard"><i class="fa fa-home"></i> Home </a> 
                   </li>
                   
                   <li>
-                    <a href="/incharge/pumps"><i class="fa fa-eyedropper"></i> Pumps </a> 
+                    <a href="/billing/bills"><i class="fa fa-money"></i> Bills </a> 
                   </li>
+
                   <li>
-                    <a href="/incharge/dipping"><i class="fa fa-beer"></i> Dipping </a> 
-                  </li>
-                  <li>
-                    <a href="/incharge/accounts"><i class="fa fa-user"></i> Accounts </a> 
+                    <a href="/billing/accounts"><i class="fa fa-folder"></i> Accounts </a> 
                   </li>
                   
                   <li>
-                    <a href="/incharge/report"><i class="fa fa-folder"></i> Report </a> 
+                    <a href="/billing/report"><i class="fa fa-folder-open"></i> History </a> 
                   </li>
                              
                   <li>

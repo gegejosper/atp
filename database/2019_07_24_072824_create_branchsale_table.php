@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBranchpumplogsTable extends Migration
+class CreateBranchsaleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,19 @@ class CreateBranchpumplogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pumplogs', function (Blueprint $table) {
+        Schema::create('branchsales', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('branchid');
-            $table->string('gasid');
-            $table->string('pumpid');
-            $table->string('consumevolume');
-            $table->string('openvolume');
-            $table->string('closevolume');
-            $table->string('unitprice');
+            $table->string('userid');
+            $table->string('account');
+            $table->string('product');
+            $table->string('invoice');
             $table->string('amount');
-            $table->string('datelog');
-            $table->string('batchcode');
+            $table->string('price');
+            $table->string('quantity');
+            $table->string('paymenttype');
+            $table->string('saledate');
+            $table->string('salesession');
             $table->string('status');
             $table->timestamps();
         });
@@ -37,6 +38,6 @@ class CreateBranchpumplogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pumplogs');
+        Schema::dropIfExists('branchsales');
     }
 }

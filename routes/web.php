@@ -102,4 +102,33 @@ Route::group(['middleware' =>'inchargeAuth','prefix' => 'incharge'], function(){
     Route::get('/dipping', 'InchargeController@dipping')->name('inchargedipping');
     Route::get('/report', 'InchargeController@report')->name('inchargereport');
 
+    Route::get('/checksubmit', 'InchargeController@checksubmit')->name('checksubmit');
+    
+    Route::post('/dashboard-creditadd', 'InchargeDashboardController@creditadd')->name('creditadd');
+    Route::post('/dashboard-creditdelete', 'InchargeDashboardController@creditdelete')->name('creditdelete');
+    
+    Route::post('/dashboard-salesadd', 'InchargeDashboardController@salesadd')->name('salesadd');
+    Route::post('/dashboard-salesdelete', 'InchargeDashboardController@salesdelete')->name('salesdelete');
+
+    Route::post('/dashboard-discountadd', 'InchargeDashboardController@discountadd')->name('discountadd');
+    Route::post('/dashboard-discountdelete', 'InchargeDashboardController@discountdelete')->name('discountdelete');
+
+    Route::post('/dashboard-othersadd', 'InchargeDashboardController@othersadd')->name('othersadd');
+    Route::post('/dashboard-othersdelete', 'InchargeDashboardController@othersdelete')->name('othersdelete');
+
+    Route::post('/dashboard/submit-report/', 'InchargeController@submitreport')->name('submitreport');
+    Route::get('/dashboard/submit-report/check', 'InchargeController@checkreport')->name('checkreport');
+
+    Route::get('/daily-report/{logsession}', 'InchargeController@dailyreport')->name('dailyreport');
+
+    Route::get('/backdashboard', 'InchargeController@backdashboard')->name('backdashboard');
+    Route::get('/report-save/{logsession}', 'InchargeController@reportsave')->name('reportsave');
+});
+Route::group(['middleware' =>'billingAuth','prefix' => 'billing'], function(){
+    Route::get('/dashboard', 'BillingController@index')->name('inchargedashboard');
+    Route::get('/bills', 'BillingController@billing')->name('billing');
+    Route::get('/accounts', 'BillingController@accounts')->name('accounts-billing');
+    Route::get('/account/{accountid}', 'BillingController@account')->name('account-billing');
+    Route::get('/history', 'BillingController@history')->name('history-billing');
+    
 });

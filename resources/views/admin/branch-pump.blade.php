@@ -84,13 +84,10 @@
                 <table class="table table-striped table-bordered" id="tablepump">
                     <thead>
                     <tr>
-                
-                        
                         <th> Name</th>
                         <th> Petrol Type </th>
                         <th> Volumetric</th>
                         <th> Action </th>
-
                     </tr>
                     </thead>
                     <tbody>
@@ -180,6 +177,7 @@
                     <tr><td colspan="6"> <button type="submit" class="btn btn-info btn-small">Save</button></td></tr>
                     </tbody>
                 </table>
+                </form>
             </div>
         </div>   
     </div>   
@@ -231,10 +229,6 @@
   				</div>
   			</div>
 		  </div>
-                        </div>
-                        <!-- /.col-lg-12 -->
-                    </div>
-                    <!-- /.row -->
     </div>
 <script src="{{ asset('js/app.js') }}"></script>
 @foreach($dataPump as $Pump)

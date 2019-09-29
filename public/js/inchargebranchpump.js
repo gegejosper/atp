@@ -6,13 +6,14 @@ $(document).ready(function() {
           $('.actionBtn').addClass('btn-success');
           $('.actionBtn').removeClass('btn-danger');
           $('.actionBtn').addClass('edit');
-          $('.modal-title').text('Edit');
+          $('.modal-title').text('Update Pump');
           $('.deleteContent').hide();
           $('.form-horizontal').show();
           $('#fid').val($(this).data('id'));
-          $('#edit_name').val($(this).data('name'));
-          $('#edit_username').val($(this).data('username'));
-          $('#edit_email').val($(this).data('email'));
+          $('#pumpedit_name').val($(this).data('name'));
+          $('#volumeedit').val($(this).data('volume'));
+          $('#gasname').val($(this).data('gasname'));
+          
           $('#myModal').modal('show');
           //console.log($(this).data('name') + $(this).data('points'));
       });
@@ -35,24 +36,21 @@ $(document).ready(function() {
   
           $.ajax({
               type: 'post',
-              url: '/admin/branches/users/edit',
+              url: '/admin/branches/pumps/edit',
               data: {
                   //_token:$(this).data('token'),
                   '_token': $('input[name=_token]').val(),
                   'id': $("#fid").val(),
-                  'fullname': $('#edit_name').val(),
-                  'username': $('#edit_username').val(),
-                  'email': $('#edit_email').val(),
-                  'password': $('#edit_password').val()
-
-                 
+                  'pumpname': $('#pumpedit_name').val(),
+                  'volume': $('#volumeedit').val(),
+                  'gasname': $('#gasname').val()
               },
               success: function(data) {
-                  $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>"+ data.name +"</td><td>"+ data.email +"</td><td><em>Hidden</em></td><td class='td-actions'><button class='edit-modal btn btn-small btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> </i> Edit</button><a class='delete-modal btn btn-danger btn-small' data-id='" + data.id + "'><i class='fa fa-times'></i>  Remove</a></td></tr>");
+                  $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>"+ data.pumpname +"</td><td><em>reload page</em></td><td>"+ data.volume +"</td><td class='td-actions'><button class='edit-modal btn btn-xs btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'> </i></button><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                   //console.log("success");
                     new PNotify({
                         title: 'Success',
-                        text: 'User successfully updated',
+                        text: 'Pump Name successfully updated',
                         type: 'info',
                         delay: 2000,
                         styling: 'bootstrap3'
@@ -65,16 +63,12 @@ $(document).ready(function() {
   
           $.ajax({
               type: 'post',
-              url: '/admin/branches/users/add',
+              url: '/incharge/pumps/add',
               data: {
                   '_token': $('input[name=_token]').val(),
-                  'fullname': $('input[name=fullname]').val(),
-                  'username': $('input[name=username]').val(),
-                  'email': $('input[name=email]').val(),
-                  'usertype': $('select[name=usertype]').val(),
-                  'password': $('input[name=password]').val(),
-                  'branchid': $('input[name=branchid]').val()
-                  
+                  'pumpname': $('input[name=pumpname]').val(),
+                  'branchid': $('input[name=branchid]').val(),
+                  'gasid': $('select[name=gastype]').val()
               },
               success: function(data) {
                   if ((data.errors)){
@@ -82,8 +76,7 @@ $(document).ready(function() {
                       $('.error').text(data.errors.name);
                       new PNotify({
                         title: 'Error',
-                        // text: 'Please complete the details.',
-                        text: 'Please complete the details.<br>' + data.errors.fullname + "<br />" + data.errors.email + "<br />"+ data.errors.password,
+                        text: 'Please enter Pump Name',
                         type: 'warning',
                         delay: 2000,
                         styling: 'bootstrap3'
@@ -91,10 +84,10 @@ $(document).ready(function() {
                   }
                   else {
                       $('.error').addClass('hidden');
-                      $('#table').append("<tr class='item" + data.id + "'><td>"+ data.name +"</td><td>"+ data.username +"</td><td>" + data.email + "</td><td>"+ data.usertype + "</td><td class='td-actions'><button class='edit-modal btn btn-small btn-success' data-id='" + data.id + "' data-name='" + data.fullname + "'><i class='fa fa-pencil'></i></button><a class='delete-modal btn btn-danger btn-small' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
+                      $('#tablepump').append("<tr class='item" + data.id + "'><td>"+ data.pumpname +"</td><td colspan='2'><em>pls. reload</em></td><td class='td-actions'><button class='edit-modal btn btn-xs btn-success' data-id='" + data.id + "' data-name='" + data.pumpname + "'><i class='fa fa-pencil'></i></button><a class='delete-modal btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                       new PNotify({
                         title: 'Success',
-                        text: 'Branch user successfully Added',
+                        text: 'Pump successfully Added',
                         type: 'success',
                         delay: 2000,
                         styling: 'bootstrap3'
@@ -104,12 +97,12 @@ $(document).ready(function() {
               },
   
           });
-          $('#name').val('');
+          $('#pumpname').val('');
       });
       $('.modal-footer').on('click', '.delete', function() {
           $.ajax({
               type: 'post',
-              url: '/admin/branches/users/delete',
+              url: '/admin/branches/pumps/delete',
               data: {
                   '_token': $('input[name=_token]').val(),
                   'id': $('.did').text()
@@ -117,7 +110,7 @@ $(document).ready(function() {
               success: function(data) {
                 new PNotify({
                     title: 'Success',
-                    text: 'User successfully deleted',
+                    text: 'Pump successfully deleted',
                     type: 'danger',
                     delay: 2000,
                     styling: 'bootstrap3'
