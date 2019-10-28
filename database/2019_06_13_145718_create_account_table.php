@@ -21,6 +21,7 @@ class CreateAccountTable extends Migration
             $table->string('mname');
             $table->string('address');
             $table->string('discount');
+            $table->string('contactnum');
             $table->string('tax');
             $table->timestamps();
         });

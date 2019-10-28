@@ -47,11 +47,20 @@
                             </div>
                             <div class="input-group col-lg-12">
                                 <label for="Volume">Product</label>
-                                <select name="branchgas" id="branchgas" class="form-control">
+                                <!-- <select name="branchgas" id="branchgas" class="form-control">
                                     @foreach($dataGas as $Gas)
                                         <option value="{{ $Gas->gasname }}, {{ $Gas->id }}">{{ $Gas->gasname }}</option>
                                     @endforeach
+                                </select> -->
+                                <select name="branchgas" id="branchgas" class="form-control branchgascredit">
+                                    @foreach($dataBranchgas as $branchGas)
+                                        <option value="{{ $branchGas->gas->gasname }}, {{ $branchGas->gas->id }}, {{ $branchGas->price }}">{{ $branchGas->gas->gasname }}</option>
+                                    @endforeach
                                 </select>
+                            </div>
+                            <div class="input-group col-lg-12">
+                                <label for="Unit Price">Unit Price</label>
+                                <input type="text" class="form-control" placeholder="Unit Price"  aria-describedby="basic-addon2" name="creditunitprice" id="creditunitprice">
                             </div>
                             <div class="input-group col-lg-12">
                                 <label for="Plate">Plate #</label>
@@ -118,9 +127,9 @@
                             
                             <div class="input-group col-lg-12">
                                 <label for="Product">Product</label>
-                                <select name="salebranchproduct" id="salebranchproduct" class="form-control">
+                                <select name="salebranchproduct" id="salebranchproduct" class="form-control salebranchproduct">
                                     @foreach($dataProduct as $Product)
-                                        <option value="{{ $Product->product->productname }}, {{ $Product->id }}">{{ $Product->product->productname }}</option>
+                                        <option value="{{ $Product->product->productname }}, {{ $Product->product->id }}, {{ $Product->price }}">{{ $Product->product->productname }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -202,6 +211,7 @@
                     <td>Product</td>
                     <td>Plate #</td>
                     <td>Liters</td>
+                    <td>Unit Price</td>
                     <td>Amount</td>
                     </tr>
                     </thead>
@@ -216,12 +226,13 @@
                     <td>{{$gasname[0]}}</td>
                     <td>{{$Branchcredit->creditplatenum}}</td>
                     <td>{{$Branchcredit->liters}}</td>
+                    <td>{{$Branchcredit->unitprice}}</td>
                     <td>{{$Branchcredit->amount}}</td>
                     <td><a class='delete-credit btn btn-danger btn-xs' data-id='{{$Branchcredit->id}}'><i class='fa fa-times'></i></a></td>
                     </tr>
                     @empty
                     <tr>
-                    <td colspan="6" id="nocreditrecord"><em>No Record</em></td>
+                    <td colspan="7" id="nocreditrecord"><em>No Record</em></td>
                     </tr>
                     
                     @endforelse
@@ -306,10 +317,7 @@
                         <td>{{$Branchsale->invoice}}</td>
                         <td>{{$Branchsale->paymenttype}}</td>
                         <?php 
-                            if($saleaccountname[2] == 0){
-
-                            
-                                 
+                            if($saleaccountname[2] == 0){       
                         ?>
                         <td></td>
                         <?php  

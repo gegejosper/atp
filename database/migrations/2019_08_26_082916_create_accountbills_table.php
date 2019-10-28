@@ -15,6 +15,8 @@ class CreateAccountbillsTable extends Migration
     {
         Schema::create('accountbills', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('accountid');
+            $table->string('branchid');
             $table->string('billnum');
             $table->string('billdate');
             $table->string('balance');

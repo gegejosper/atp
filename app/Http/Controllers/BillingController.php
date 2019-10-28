@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Branch;
 use App\Branchuser;
+//use Carbon\Carbon;
 use App\Gastype;
 use App\Branchgases;
 use App\Branchdipping;
@@ -21,6 +22,7 @@ use App\Accountbill;
 use App\Accountcredit;
 use App\Pumprecord;
 use Illuminate\Support\Facades\Auth;
+
 
 class BillingController extends Controller
 {
@@ -86,9 +88,32 @@ class BillingController extends Controller
         $dataBranch = Branchuser::where('userid', '=', $userId)->first();
         $BranchId = $dataBranch->branchid;
         $Branches = Branch::where('id','=', $BranchId)->get();
-        $dataAccount = Account::where('branchid', '=', $BranchId)->get();
+        //$dataAccount = Account::where('branchid', '=', $BranchId)->get();
+        $accountBill = Accountbill::where('branchid', '=', $BranchId)->with('account')->latest()->get();  
         //dd($dataAccount);
-        return view('billing.bills', compact('dataBranch', 'Branches', 'dataAccount'));
+        return view('billing.bills', compact('dataBranch', 'Branches', 'accountBill'));
+
+    }
+    public function viewbill($billid){
+        if (Auth::check())
+        {
+            $userId = Auth::user()->id;
+        }
+        $dataBranch = Branchuser::where('userid', '=', $userId)->first();
+        $BranchId = $dataBranch->branchid;
+        $Branches = Branch::where('id','=', $BranchId)->get();
+        $accountBill = Accountbill::where('id', '=', $billid)->with('account')->take(1)->get();
+        foreach($accountBill as $dataBill) {
+            $daterange = explode('-', $dataBill->billdate); 
+            $fromDate = trim(str_replace('/', '-', $daterange[0]));
+            $toDate = trim(str_replace('/', '-', $daterange[1]));
+            $dataCredit = Branchcredit::where('creditdate', '>=', $fromDate)
+            ->where('creditdate', '<=', $toDate)->where('creditstatus', '=', 'FINAL')->get();
+        }  
+        $dataAccount = Account::where('id', '=', $BranchId)->get();
+         
+        //dd($dataCredit);
+        return view('billing.bill', compact('dataBranch', 'Branches', 'accountBill', 'billid', 'dataCredit'));
 
     }
     public function account($accountId){
@@ -100,8 +125,70 @@ class BillingController extends Controller
         $BranchId = $dataBranch->branchid;
         $Branches = Branch::where('id','=', $BranchId)->get();
         $dataAccount = Account::where('id', '=', $accountId)->get();
+        $recentBill = Accountbill::where('accountid', '=', $accountId)->where('billstatus', '=', 'not paid')->latest()->get(); 
+        $historyBill = Accountbill::where('accountid', '=', $accountId)->where('billstatus', '=', 'paid')->latest()->get(); 
         //dd($dataAccount);
-        return view('billing.account', compact('dataBranch', 'Branches', 'dataAccount'));
+        return view('billing.account', compact('dataBranch', 'Branches', 'dataAccount', 'recentBill', 'historyBill'));
 
     }
+    public function generatebill(Request $req){
+        $daterange = explode('-', $req->billdate); 
+        $fromDate = trim(str_replace('/', '-', $daterange[0]));
+        $toDate = trim(str_replace('/', '-', $daterange[1]));
+        //dd($fromDate , '-', $toDate);
+        if (Auth::check())
+        {
+            $userId = Auth::user()->id;
+        }
+        $dataBranch = Branchuser::where('userid', '=', $userId)->first();
+        $BranchId = $dataBranch->branchid;
+        $dataAccount = Account::where('branchid', '=', $BranchId)->get();
+        $accountData = array();
+        foreach($dataAccount as $Account){
+            $accountCredits = Accountcredit::where('accountid', '=', $Account->id)
+                ->where('creditdate', '>=', $fromDate)
+                ->where('creditdate', '<=', $toDate)
+                ->get();
+            $totalAmount = 0;
+            $totalQuantity = 0;
+            foreach($accountCredits as $Credit){
+                $totalAmount = $totalAmount + $Credit->amount;
+                if($Credit->credittype == 'Petrol'){
+                    $totalQuantity = $totalQuantity + $Credit->quantity;
+                }
+                
+            }
+            $discountedAmount = $totalAmount - $totalQuantity;
+            //$discountedAmount = $totalAmount - $totalQuantity;
+            $accountDetails = array($Account->id,$Account->fname, $Account->lname,  $totalAmount, $discountedAmount, $totalQuantity);
+            array_push($accountData,$accountDetails);
+        }
+        $countPrevBill = Accountbill::where('accountid', '=', $Account->id)->where('billstatus', '=', 'not paid')->get();
+        $prevBillAmount = 0;
+        foreach($countPrevBill as $PrevBill){
+            $prevBillAmount = $PrevBill->totalamount;
+        }     
+        foreach($accountData as $Data){
+            $countBill = Accountbill::where('accountid', '=', $Data[0])->count();     
+            $data = new Accountbill();
+            $data->billnum  = $countBill+1;
+            $data->billdate  = $req->billdate;
+            $data->balance = $Data[4];
+            $data->discount  = $Data[5];
+            $data->amount  = $Data[3];
+            $data->billstatus  = 'not paid';
+            $data->accountid  = $Data[0];
+            $data->branchid  = $BranchId;
+            $data->userid = $userId;
+            $data->totalamount = $Data[4];
+            $data->prevbal = $prevBillAmount;
+            $data->save();
+        }
+        //dd($accountData);
+        return redirect()->back()->with('success','Bill successfully generated for '. $req->billdate.'.');
+        // $fromdate = Carbon::parse($fromDate.' 00:00:00');
+        // $todate = Carbon::parse($toDate .' 23:59:59'); 
+
+    }
+    
 }

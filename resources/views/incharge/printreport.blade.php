@@ -1,63 +1,32 @@
 
-<style type="text/css">
-table td, table th {
-    padding:5px 10px;
-    border: 1px solid black;
-}
-.text-right {
-    text-align:right;
-}
-table {
-    border-collapse: collapse;
-    width:100%;
-}
-.no-print{
-    padding:10px;
-    margin: 0 auto;
-}
-.no-print button{
-    padding:10px;
-    cursor:pointer;
-}
-.btn-back {
-    border:1px solid black;
-    padding:9px 10px;
-    text-decoration:none;
-    font-size:12px;
-    color:black;
-    border-style: solid;
-    background:rgb(209, 209, 209) ;
-    border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
-    border:1px solid rgb(186, 186, 186);
-}
-@media print {
- /* styles go here */
- .no-print {
-     display:none;
- }
-}
+@extends('layouts.incharge')
 
-</style>
+@section('content')
+
 <div class="right_col" role="main">
     <div class="row">
-        <div class="page-title">
-            <div class="title_left">
-            <h3>
-                Daily Sales Report - {{$dataDate['datelog']}}
-            </h3>
+        <div class="col-lg-12" style="width:100% !important;">
+            <div class="x_content" style="width:100% !important;" align="center">
+            <img src="{{ asset('img/logo.png') }}" alt="" style="width:50px; ">
+                        
+                    <div class="x_title">
+                        <h4>
+                            Daily Sales Report: {{$dataDate['datelog']}} (@foreach($Branches as $branch){{$branch->branchname}} @endforeach Branch)
+                        </h4>
+                    </div>
+               
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-lg-12">
         <div class="x_panel tile">
-                <div class="col-md-12 col-sm-12 col-lg-12">
-                    
+            <div class="col-lg-12" style="width:100% !important;">
+               
                     <div class="x_title">
                         <h4>Pumps</h4>
                     </div>
                     <div class="x_content">
-                            <table class="table table-striped table-pump" id="table" style="">
+                            <table class="table table-striped table-pump" id="table" style="width:100%;">
                                 <thead>
                                 <tr>
                             
@@ -101,13 +70,11 @@ table {
                             </table>
                     </div><!--x_content-->
                    
-                </div><!--col-->
-            </div>
-            <div class="x_panel tile">        
-                <div class="col-md-12 col-sm-12 col-lg-12">
-                    <div class="x_content">
-                        <div class="row">
-                        <div class="col-lg-6">
+                </div>
+        </div>
+            <div class="x_panel tile">  
+                <div class="col-lg-12" style="width:100% !important;">
+                     
                                 <div class="x_title">
                                     <h4>Discount</h4>
                                 </div>
@@ -147,8 +114,7 @@ table {
                                         <td class="text-right">{{number_format($totalDiscount,3) }}</td>
                                     </tr>
                                 </table>
-                            </div>
-                            <div class="col-lg-6">
+                            
                                 <div class="x_title">
                                     <h4>Credit</h4>
                                 </div>
@@ -191,19 +157,12 @@ table {
                                         <td class="text-right" >{{number_format($totalCredit,3) }}</td>
                                     </tr>
                                 </table>
-                            </div>
-
-                        </div>
-                    
-                    </div><!--x_content-->
-                </div><!--col-->
+                   
+                </div>
             </div>
             <div class="x_panel tile">
-                <div class="col-md-12 col-sm-12 col-lg-12">
-                    
+                <div class="col-lg-12" style="width:100% !important;">
                     <div class="x_content">
-                        <div class="row">
-                            <div class="col-lg-6">
                                 <div class="x_title">
                                     <h4>Sales</h4>
                                 </div>
@@ -258,8 +217,7 @@ table {
                                     </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="col-lg-6">
+                            
                                 <div class="x_title">
                                     <h4>Others</h4>
                                 </div>
@@ -294,76 +252,76 @@ table {
                                 </table>           
                             </div>
                         </div>
-
                     </div><!--x_content-->
+                    </div>
                     <div class="row">
-                        <div class="col-lg-6"></div>
-                        <div class="col-lg-6">
-                                <div class="x_title">
-                                    <h4>Summary</h4>
-                                </div>
-                                <table class="table table-striped" id="otherstable">
-                                    <thead>
-                                    <tr>
-                                    
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Total Volume</th>
-                                    <th>Amount</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php 
-                                        $totalAmountSummary = 0; 
-                                    ?>
-                                    @forelse($arrayGas as $gassummary) 
+                        <div class="x_panel tile">
+                            <div class="col-lg-12" style="width:100% !important;">
+                                    <div class="x_title">
+                                        <h4>Summary</h4>
+                                    </div>
+                                    <table class="table table-striped" id="otherstable">
+                                        <thead>
                                         <tr>
-                                            <td>{{$gassummary[0]}}</td>
-                                            <td class="text-right" >{{number_format($gassummary[2],3)}}</td>
-                                            <td class="text-right" >{{$gassummary[1]}}</td>
-                                            <td class="text-right" >{{number_format($gassummary[1] * $gassummary[2], 3)}}</td>
+                                        <th>Product</th>
+                                        <th class="text-right">Price</th>
+                                        <th class="text-right">Total Volume</th>
+                                        <th class="text-right">Amount</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php 
+                                            $totalAmountSummary = 0; 
+                                        ?>
+                                        @forelse($arrayGas as $gassummary) 
+                                            <tr>
+                                                <td>{{$gassummary[0]}}</td>
+                                                <td class="text-right" >{{number_format($gassummary[2],3)}}</td>
+                                                <td class="text-right" >{{$gassummary[1]}}</td>
+                                                <td class="text-right" >{{number_format($gassummary[1] * $gassummary[2], 3)}}</td>
+                                            </tr>
+                                            <?php 
+                                                $gasAmount = $gassummary[1] * $gassummary[2];
+                                                $totalAmountSummary = $totalAmountSummary + $gasAmount;?>
+                                        @empty
+                                        <tr>
+                                        <td colspan="4" id=""><em>No Record</em></td>
+                                        </tr>
+                                        @endforelse
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>Total Amount</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalAmountSummary, 3)}}</td>
                                         </tr>
                                         <?php 
-                                            $gasAmount = $gassummary[1] * $gassummary[2];
-                                            $totalAmountSummary = $totalAmountSummary + $gasAmount;?>
-                                    @empty
-                                    <tr>
-                                    <td colspan="4" id=""><em>No Record</em></td>
-                                    </tr>
-                                    @endforelse
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>Total Amount</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalAmountSummary, 3)}}</td>
-                                    </tr>
-                                    <?php 
-                                    $amountSummary = $totalAmountSummary - $totalCredit;
-                                    ?>
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>Cash</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalAmountSummary, 3)}}</td>
-                                    </tr>
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>Credit</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalCredit, 3)}}</td>
-                                    </tr>
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>Discount</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalDiscount, 3)}}</td>
-                                    </tr>
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>Others</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalOthers, 3)}}</td>
-                                    </tr>
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>BIR Form</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalOthers, 3)}}</td>
-                                    </tr>
-                                    <tr >
-                                        <td class="text-right" colspan="3" align="right"><strong>Total Amount</strong>  </td>
-                                        <td class="text-right" >{{number_format($totalAmountSummary, 3)}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table> 
+                                        $amountSummary = $totalAmountSummary - $totalCredit;
+                                        ?>
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>Cash</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalAmountSummary, 3)}}</td>
+                                        </tr>
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>Credit</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalCredit, 3)}}</td>
+                                        </tr>
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>Discount</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalDiscount, 3)}}</td>
+                                        </tr>
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>Others</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalOthers, 3)}}</td>
+                                        </tr>
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>BIR Form</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalOthers, 3)}}</td>
+                                        </tr>
+                                        <tr >
+                                            <td class="text-right" colspan="3" align="right"><strong>Total Amount</strong>  </td>
+                                            <td class="text-right" >{{number_format($totalAmountSummary, 3)}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table> 
+                            </div>
                         </div>
                     </div>
                     <div class="row no-print">
@@ -378,4 +336,12 @@ table {
             </div>
         </div><!--col-->
     </div><!--row-->
-    </div>
+            </div>
+        </div>
+    </div><!--row-->
+</div>
+
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/dashboardscript.js') }}"></script>
+
+@endsection

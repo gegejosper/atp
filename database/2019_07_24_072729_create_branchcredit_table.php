@@ -17,6 +17,7 @@ class CreateBranchcreditTable extends Migration
             $table->bigIncrements('id');
             $table->string('branchid');
             $table->string('userid');
+            $table->string('accountid');
             $table->string('account');
             $table->string('gasname');
             $table->string('invoice');

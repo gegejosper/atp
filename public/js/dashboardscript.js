@@ -12,6 +12,41 @@ $(document).ready(function() {
         }
         //console.log('dsads');
     });
+    $(".branchgascredit").change(function () {
+        var gas = $('select[name=branchgas]').val();
+         var array = gas.split(',');
+         var gasname = array[0];
+         var gasid = array[1]; 
+         var gasprice = array[2]; 
+       $('#creditunitprice').val(gasprice);
+    });
+    $(".salebranchproduct").change(function () {
+        var product = $('select[name=salebranchproduct]').val();
+         var array = product.split(',');
+         var productname = array[0];
+         var productid = array[1]; 
+         var productprice = array[2]; 
+       $('#saleprice').val(productprice);
+    });
+    $('#creditliters').keyup(function() {  
+        updateCreditAmount();
+    });
+      var updateCreditAmount = function () {
+      var creditliters = parseFloat($('#creditliters').val()).toFixed(2);
+      var creditunitprice = parseFloat($('#creditunitprice').val()).toFixed(2);
+      var creditamount = creditliters *  creditunitprice;
+        $('#creditamount').val(parseFloat(creditamount).toFixed(3));
+    };
+
+    $('#salequantity').keyup(function() {  
+        updateSaleAmount();
+    });
+      var updateSaleAmount = function () {
+      var salequantity = parseFloat($('#salequantity').val()).toFixed(2);
+      var saleprice = parseFloat($('#saleprice').val()).toFixed(2);
+      var saleamount = salequantity *  saleprice;
+        $('#saleamount').val(parseFloat(saleamount).toFixed(3));
+    };
       $("#creditadd").click(function() {
           $.ajax({
               type: 'post',
@@ -25,6 +60,7 @@ $(document).ready(function() {
                   'branchid': $('input[name=branchid]').val(),
                   'creditplatenum': $('input[name=creditplatenum]').val(),
                   'creditamount': $('input[name=creditamount]').val(),
+                  'unitprice': $('input[name=creditunitprice]').val(),
                   'creditdate': $('input[name=creditdate]').val()
               },
               success: function(data) {
@@ -46,7 +82,7 @@ $(document).ready(function() {
                       var accountValue = data.account;
                       var account = accountValue.split(',');
                       
-                      $('#credittable').append("<tr class='credititem" + data.id + "'><td>"+ data.invoice  +"</td><td>" + account[0] + ", " + account[1] +" </td><td>" + gasname[0]+ " </td><td>" + data.creditplatenum + "</td><td>" + data.liters + "</td><td>" + data.amount + "</td><td class='td-actions'><a class='delete-credit btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
+                      $('#credittable').append("<tr class='credititem" + data.id + "'><td>"+ data.invoice  +"</td><td>" + account[0] + ", " + account[1] +" </td><td>" + gasname[0]+ " </td><td>" + data.creditplatenum + "</td><td>" + data.liters + "</td><td>" + data.unitprice + "</td><td>" + data.amount + "</td><td class='td-actions'><a class='delete-credit btn btn-danger btn-xs' data-id='" + data.id + "'><i class='fa fa-times'></i></a></td></tr>");
                         new PNotify({
                         title: 'Success',
                         text: 'Pump successfully Added',

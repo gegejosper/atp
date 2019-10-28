@@ -24,14 +24,19 @@ class InchargeDashboardController extends Controller
 {
     //
     public function creditadd(Request $req){
+        
         $data = new Branchcredit();
         $data->invoice  = $req->invoice;
         $data->account  = $req->account;
+        $accountDetails = explode(',', $req->account); 
+        $accountid = trim($accountDetails[1]);
+        $data->accountid = $accountid;
         $data->gasname  = $req->gasname;
         $data->liters  = $req->creditliters;
         $data->branchid  = $req->branchid;
         $data->creditplatenum  = $req->creditplatenum;
         $data->amount  = $req->creditamount;
+        $data->unitprice  = $req->unitprice;
         $data->creditdate  = $req->creditdate;
         $data->creditsession  = session()->get('sessionid');
         $data->creditstatus  = 'INITIAL';

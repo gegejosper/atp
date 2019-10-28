@@ -101,6 +101,7 @@ Route::group(['middleware' =>'inchargeAuth','prefix' => 'incharge'], function(){
     Route::get('/accounts', 'InchargeController@accounts')->name('inchargeaccounts');
     Route::get('/dipping', 'InchargeController@dipping')->name('inchargedipping');
     Route::get('/report', 'InchargeController@report')->name('inchargereport');
+    Route::get('/payments', 'InchargeController@payments')->name('payments');
 
     Route::get('/checksubmit', 'InchargeController@checksubmit')->name('checksubmit');
     
@@ -123,12 +124,30 @@ Route::group(['middleware' =>'inchargeAuth','prefix' => 'incharge'], function(){
 
     Route::get('/backdashboard', 'InchargeController@backdashboard')->name('backdashboard');
     Route::get('/report-save/{logsession}', 'InchargeController@reportsave')->name('reportsave');
+    Route::get('/viewrecord/{logsession}', 'InchargeController@viewrecord')->name('viewrecord');
+
+    Route::get('/bills', 'InchargeController@billing')->name('billing');
+    Route::get('/bill/{billid}', 'InchargeController@viewbill')->name('viewbill');
+    Route::get('/pay/{billid}', 'InchargeController@paybill')->name('paybill');
+    Route::post('/pay/processpayment', 'InchargeController@processpayment')->name('processpayment');
+    Route::get('/accounts', 'InchargeController@accounts')->name('accounts-billing');
+    Route::get('/account/{accountid}', 'InchargeController@account')->name('account-billing');
+    Route::get('/search', 'InchargeController@searchaccount')->name('searchaccount');
+    Route::get('/viewpaymenthistory/{accountid}', 'InchargeController@viewpaymenthistory')->name('viewpaymenthistory');
+    
+    
+
+    
 });
 Route::group(['middleware' =>'billingAuth','prefix' => 'billing'], function(){
     Route::get('/dashboard', 'BillingController@index')->name('inchargedashboard');
     Route::get('/bills', 'BillingController@billing')->name('billing');
+    Route::get('/bill/{billid}', 'BillingController@viewbill')->name('viewbill');
+    Route::post('/generatebill', 'BillingController@generatebill')->name('generatebill');
+
     Route::get('/accounts', 'BillingController@accounts')->name('accounts-billing');
     Route::get('/account/{accountid}', 'BillingController@account')->name('account-billing');
+    
     Route::get('/history', 'BillingController@history')->name('history-billing');
     
 });

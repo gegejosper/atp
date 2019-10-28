@@ -72,10 +72,12 @@
                   <li>
                     <a href="/incharge/dashboard"><i class="fa fa-home"></i> Home </a> 
                   </li>
-                  
                   <li>
-                    <a href="/incharge/pumps"><i class="fa fa-eyedropper"></i> Pumps </a> 
+                    <a href="/incharge/payments"><i class="fa fa-money"></i> Payments </a> 
                   </li>
+                  <!-- <li>
+                    <a href="/incharge/pumps"><i class="fa fa-eyedropper"></i> Pumps </a> 
+                  </li> -->
                   <li>
                     <a href="/incharge/dipping"><i class="fa fa-beer"></i> Dipping </a> 
                   </li>
