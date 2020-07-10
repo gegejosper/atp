@@ -9,6 +9,7 @@ use App\Branchgases;
 use App\Branchdipping;
 use App\Branchreport;
 use App\Pump;
+use App\Gaslog;
 use App\Product;
 use App\Branchproduct;
 use App\Branchcredit;
@@ -21,6 +22,7 @@ use App\Account;
 use App\Accountbill;
 use App\Accountcredit;
 use App\Pumprecord;
+use App\Purchase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -93,8 +95,46 @@ class InchargeController extends Controller
 
     public function dipping()
     {
+        
+        if(session()->has('dippingId')){
+
+        }
+        else {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 10; $i++) {
+                $randomString .= ucwords($characters[rand(0, $charactersLength - 1)]);
+            }
+        
+        session()->put('dippingId', $randomString);
+        }
+
+        if (Auth::check())
+        {
+            $userId = Auth::user()->id;
+        }
+        $dataBranch = Branchuser::where('userid', '=', $userId)->first();
+        $BranchId = $dataBranch->branchid;
         $dataBranch = Branch::get();
-        return view('incharge.dipping', compact('dataBranch'));
+        $Branches = Branch::where('id','=', $BranchId)->get();
+        $dataGastype = Gastype::with('branchpump')->get();
+        $Gas = array();
+        foreach($dataGastype as $gastype){
+            $BranchGasAvail= Branchgases::where('branchid', '=', $BranchId)->where('gasid', '=', $gastype->id)->count();
+            if($BranchGasAvail <= 0){
+                array_push($Gas, $gastype);
+            }
+        }
+        $dippingDate = Branchdipping::where('status', '=', 'Initial')->with('branchgas.gas')->get();
+        
+        $dataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas.branchpump', 'branchdipping')->get();
+        //dd($dippingDate);
+        $getDataBranchgas = Branchgases::where('branchid', '=', $BranchId)->with('gas')->get();
+
+        $BranchGasDipping= Branchdipping::where('branchid', '=', $BranchId)->where('status', '=', 'Final')->with('branchgas.gas')->orderBy('created_at', 'desc')->get();
+        //dd($BranchGasDipping);
+        return view('incharge.dipping', compact('dataBranch', 'dataGastype', 'BranchId', 'dataBranchgas', 'Gas', 'dippingDate', 'BranchGasDipping', 'Branches'));
     }
     public function accounts()
     {
@@ -190,7 +230,22 @@ class InchargeController extends Controller
             $data->batchcode = session()->get('batchcode'); 
             $data->datelog = date('m-d-Y');
             $data->status = 'Initial';
-            $data->save();          
+            $data->save();  
+            $dataGaslog = new Gaslog();
+            $dataGaslog->record_number = $data->logsession;
+            $dataGaslog->branch_id = $req->branchid;
+            $dataGaslog->gas_id = $req->gasid[$i];
+            $dataGaslog->volume = $req->consumevolume[$i];
+            $dataGaslog->log_type = 'Pump Log';
+            $dataGaslog->status = 'Final';
+            $dataGaslog->save();  
+            
+            $gas_volume_consume = $req->consumevolume[$i];
+            $data_branch_gases = Branchgases::where('branchid', '=', $req->branchid)->where('gasid', '=', $req->gasid[$i])->first();    
+            $gas_volume = $data_branch_gases->volume;
+            $new_gas_volume = $gas_volume - $gas_volume_consume;
+            $updateBranchgases = Branchgases::where('id', '=', $data_branch_gases->id)
+            ->update(['volume' => $new_gas_volume]); 
         } 
         $dataPumprecord = new Pumprecord();
         $dataPumprecord->branchid = $req->branchid;
@@ -309,7 +364,7 @@ class InchargeController extends Controller
     public function backdashboard(){
         $delete = Pumplog::where('logsession', '=', session()->get('sessionid'))
                     ->delete();
-                    return redirect('/incharge/dashboard');           
+        return redirect('/incharge/dashboard');           
     }
     public function dailyreport($logsession){
         if (Auth::check())
@@ -352,7 +407,6 @@ class InchargeController extends Controller
         $BranchId = $dataBranch->branchid;
         $dataBranch = Branch::get();
         $Branches = Branch::where('id','=', $BranchId)->get();
-
         $dataGas = Gastype::get();
         $arrayGas = array();
         foreach($dataGas as $Gastypes){
@@ -398,7 +452,6 @@ class InchargeController extends Controller
         $accountBill = Accountbill::where('branchid', '=', $BranchId)->with('account')->latest()->paginate(50);  
         //dd($dataAccount);
         return view('incharge.bills', compact('dataBranch', 'Branches', 'accountBill'));
-
     }
     public function viewbill($billid){
         if (Auth::check())
@@ -487,9 +540,24 @@ class InchargeController extends Controller
     }
     public function viewpaymenthistory($accountId){
         $this->branchaccount();
-        $dataAccount = Account::where('id', '=', $accountId)->get(); 
+        $dataAccount = Account::where('id', '=', $accountId)->first(); 
         $accountBill = Branchpayment::where('accountid', '=', $accountId)->with('bill')->latest()->get();
 
         return view('incharge.paymenthistory', compact('accountBill', 'dataAccount'));
+    }
+
+    public function order()
+    {   
+        if (Auth::check())
+        {
+            $userId = Auth::user()->id;
+        }
+        $dataBranch = Branchuser::where('userid', '=', $userId)->first();
+        $BranchId = $dataBranch->branchid;
+        $dataPurchase = Purchase::where('branch_id', '=', $BranchId)->take(20)->latest()->get();
+        $dataBranch = Branch::with('branchgas.gas')->get();
+        //dd($dataBranch);
+        
+        return view('incharge.order', compact('dataPurchase', 'dataBranch'));
     }
 }

@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="{{ asset('img/logoicon.png') }}" type="image/ico" />
-
+    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/ico" />
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
     <title>ATP Caltex Management Application</title>
 
     <!-- Bootstrap -->

@@ -50,7 +50,7 @@ $(document).ready(function() {
       $("#creditadd").click(function() {
           $.ajax({
               type: 'post',
-              url: '/incharge/dashboard-creditadd',
+              url: '/admin/dashboard-creditadd',
               data: {
                   '_token': $('input[name=_token]').val(),
                   'invoice': $('input[name=creditinvoicenum]').val(),
@@ -123,7 +123,7 @@ $(document).ready(function() {
     $('.modal-footer').on('click', '.creditdelete', function() {
           $.ajax({
               type: 'post',
-              url: '/incharge/dashboard-creditdelete',
+              url: '/admin/dashboard-creditdelete',
               data: {
                   '_token': $('input[name=_token]').val(),
                   'id': $('.did').text()
@@ -144,7 +144,7 @@ $(document).ready(function() {
           //console.log('cdsada');
         $.ajax({
             type: 'post',
-            url: '/incharge/dashboard-discountadd',
+            url: '/admin/dashboard-discountadd',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'account': $('select[name=accountdis]').val(),
@@ -213,7 +213,7 @@ $(document).ready(function() {
     $('.modal-footer').on('click', '.discountdelete', function() {
           $.ajax({
               type: 'post',
-              url: '/incharge/dashboard-discountdelete',
+              url: '/admin/dashboard-discountdelete',
               data: {
                   '_token': $('input[name=_token]').val(),
                   'id': $('.did').text()
@@ -235,7 +235,7 @@ $(document).ready(function() {
     $("#salesadd").click(function() {
         $.ajax({
             type: 'post',
-            url: '/incharge/dashboard-salesadd',
+            url: '/admin/dashboard-salesadd',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'invoice': $('input[name=saleinvoicenum]').val(),
@@ -318,7 +318,7 @@ $(document).ready(function() {
     $('.modal-footer').on('click', '.saledelete', function() {
         $.ajax({
             type: 'post',
-            url: '/incharge/dashboard-salesdelete',
+            url: '/admin/dashboard-salesdelete',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'id': $('.did').text()
@@ -341,7 +341,7 @@ $(document).ready(function() {
 $("#othersadd").click(function() {
     $.ajax({
         type: 'post',
-        url: '/incharge/dashboard-othersadd',
+        url: '/admin/dashboard-othersadd',
         data: {
             '_token': $('input[name=_token]').val(),
             'branchid': $('input[name=branchid]').val(),
@@ -406,7 +406,7 @@ $('#myModal').modal('show');
 $('.modal-footer').on('click', '.otherdelete', function() {
     $.ajax({
         type: 'post',
-        url: '/incharge/dashboard-othersdelete',
+        url: '/admin/dashboard-othersdelete',
         data: {
             '_token': $('input[name=_token]').val(),
             'id': $('.did').text()

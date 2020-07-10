@@ -7,6 +7,7 @@ use App\Branch;
 use App\Product;
 use App\Gastype;
 use App\Purchase;
+use App\Branchgases;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,10 @@ class AdminController extends Controller
     public function index()
     {
         $dataBranch = Branch::get();
-        return view('admin.dashboard', compact('dataBranch'));
+        $data_branch_gas = Branch::with('branchgas')->get();
+        $dataBranchgas = Branchgases::with('branchpump', 'branch')->get();
+        $dataPurchase = Purchase::take(5)->latest()->get();
+        return view('admin.dashboard', compact('dataBranch', 'dataPurchase', 'dataBranchgas', 'data_branch_gas'));
     }
     public function sales()
     {
@@ -42,16 +46,19 @@ class AdminController extends Controller
     {   
         $dataBranch = Branch::with('branchgas.gas')->get();
         //dd($dataBranch);
-        return view('admin.petrol', compact('dataBranch'));
+        
+        return view('admin.petrol', compact('dataBranch', 'dataBranchgas'));
     }
 
     public function order()
     {   
-        $dataPurchase = Purchase::take(1)->latest()->get();
+        $dataPurchase = Purchase::take(10)->latest()->get();
+        $dataPurchaseLast = Purchase::take(1)->latest()->get();
+        //dd($dataPurchaseLast);
         $dataBranch = Branch::with('branchgas.gas')->get();
         //dd($dataBranch);
         
-        return view('admin.order', compact('dataPurchase', 'dataBranch'));
+        return view('admin.order', compact('dataPurchase', 'dataBranch', 'dataPurchaseLast'));
     }
 
     public function pumps()
@@ -75,4 +82,5 @@ class AdminController extends Controller
         $dataBranch = Branch::get();
         return view('admin.settings', compact('dataBranch'));
     }
+    
 }

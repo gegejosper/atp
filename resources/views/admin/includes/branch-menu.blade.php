@@ -1,6 +1,11 @@
 
 <div class="bs-glyphicons">
     <ul class="bs-glyphicons-list">
+        <a href="/admin/branches/sales/{{$BranchId}}">
+            <li> <span class="glyphicon fa fa-money" aria-hidden="true"></span>
+                <span class="glyphicon-class">Sales</span>
+            </li>
+        </a>
         <a href="/admin/branches/gas/{{$BranchId}}">
             <li> <span class="glyphicon fa fa-beer" aria-hidden="true"></span>
                 <span class="glyphicon-class">Petrol</span>

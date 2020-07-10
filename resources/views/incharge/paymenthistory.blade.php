@@ -19,15 +19,20 @@
                             
                         </address>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-lg-4 invoice-col">
+
+                    <div class="col-sm-4 invoice-col">
                         To
                         <address>
-                            <strong>{{ucwords($Bill->account->lname)}}, {{ucwords($Bill->account->fname)}} {{ucwords($Bill->account->mname)}}</strong>
-                            <br>{{ucwords($Bill->account->address)}}
-                            <br>Phone: 1 (804) 123-9876
-                            <br>Email: jon@ironadmin.com
+                            <strong>{{ucwords($dataAccount->lname)}}, {{ucwords($dataAccount->fname)}} {{ucwords($dataAccount->mname)}}</strong>
+                            <br>Address: {{ucwords($dataAccount->address)}}
+                            <br>Phone: {{$dataAccount->contactnum}}
+                            
                         </address>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-lg-4 invoice-col">
+                        
+                        
                     </div>
             </div>
                 <section class="content invoice">

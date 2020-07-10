@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Gastype;
+use App\Gaschange;
+use App\Gasrecord;
 use App\Branchgases;
 use App\Branchdipping;
 use App\User;
@@ -73,10 +75,59 @@ class GastypeController extends Controller
     }
     public function updateBranchGas(Request $req)
     {
+        $dataBranchgas = Branchgases::find($req->id);
+        
+        $dataGasRecord = new Gasrecord();
+        $dataGasRecord->branchgasid = $req->id;
+        $dataGasRecord->gasid = $dataBranchgas->gasid;
+        $dataGasRecord->branchid = $req->branchid;
+        $dataGasRecord->oldprice = $dataBranchgas->price;
+        $dataGasRecord->newprice = $req->price;
+        $dataGasRecord->oldvolume = $dataBranchgas->volume;
+        $dataGasRecord->newvolume = $req->volume;
+        $dataGasRecord->save();
+        
         $data = Branchgases::find($req->id);
         $data->volume = $req->volume; 
         $data->price = $req->price; 
         $data->save();
+        $dataGaschange = new Gaschange();
+        $dataGaschange->branchid = $req->branchid;
+        $dataGaschange->branchgasid = $req->gasid;
+        $dataGaschange->volumeedit = $req->volume;
+        $dataGaschange->priceedit = $req->price;
+        $dataGaschange->save();
+
+        return response()->json($data);
+    }
+    public function updateBranchGasdashboard(Request $req)
+    {
+        $dataBranchgas = Branchgases::find($req->id);
+        
+        $dataGasRecord = new Gasrecord();
+        $dataGasRecord->branchgasid = $req->id;
+        $dataGasRecord->gasid = $dataBranchgas->gasid;
+        $dataGasRecord->branchid = $req->branchid;
+        $dataGasRecord->oldprice = $dataBranchgas->price;
+        $dataGasRecord->newprice = $req->price;
+        $dataGasRecord->oldvolume = $dataBranchgas->volume;
+        $dataGasRecord->newvolume = $req->volume;
+        $dataGasRecord->save();
+        
+        $data = Branchgases::find($req->id);
+        $data->volume = $req->volume; 
+        $data->price = $req->price; 
+        $data->save();
+        $data->gasname = $dataBranchgas->gas->gasname;
+        $data->gasid = $dataBranchgas->gasid;
+        $data->branchid = $req->branchid;
+        $dataGaschange = new Gaschange();
+        $dataGaschange->branchid = $req->branchid;
+        $dataGaschange->branchgasid = $req->gasid;
+        $dataGaschange->volumeedit = $req->volume;
+        $dataGaschange->priceedit = $req->price;
+        $dataGaschange->save();
+
         return response()->json($data);
     }
 }

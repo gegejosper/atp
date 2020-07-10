@@ -65,6 +65,7 @@
                       @endforelse 
                     </tbody>
                   </table>
+                  
                   <div style="text-align:right; padding-top:20px;"><a href="javascript:;" class="generate-modal btn btn-mini btn-success" data-purchasenumber="{{$purchasenumber}}"><i class="icon-save"> </i>Generate Purchase Request</a></div>
                 </div> <!--end x_content-->
          </div><!--end x_panel-->

@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/login', function () {
     return view('auth.login');
 });
+
 Route::post('/userlogin', 'LoginController@userLogin')->name('userLogin');
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -32,6 +33,11 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::post('/order/createpurchase', 'PurchaseController@createpurchase')->name('createpurchase');
     Route::get('/order/createpurchase/{prnumber}/{branchid}', 'PurchaseController@createpurchaserequest')->name('createpurchaserequest');
     Route::post('/order/addquantityrequest/', 'PurchaseController@addquantityrequest')->name('addquantityrequest');
+    Route::post('/order/addunitprice', 'PurchaseController@addunitprice')->name('addunitprice');
+    Route::post('/order/generatepurchaseorder/', 'PurchaseController@generatepurchaseorder')->name('generatepurchaseorder');
+    Route::get('/order/history/{prnumber}', 'PurchaseController@purchaseorderhistory')->name('purchaseorderhistory');
+    Route::post('/order/addquantityrecieve/', 'PurchaseController@addquantityrecieve')->name('addquantityrecieve');
+    Route::post('/order/savepurchaserec', 'PurchaseController@savepurchaserec')->name('savepurchaserec');
     //Route::get('/createpurchase', 'PurchaseController@createpurchase')->name('createpurchaserequest');
     
 
@@ -62,8 +68,6 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::post('/branches/pumps/delete', 'PumpController@deletePump')->name('deletePump');
     Route::post('/branches/pumps/savelog', 'PumpController@savepumplog')->name('savepumplog');
 
-    
-
     Route::get('/branches/users/{branchid}', 'BranchController@branchuser')->name('branchuser');
     Route::post('/branches/users/add', 'UserController@addUser')->name('addUser');
     Route::post('/branches/users/edit', 'UserController@editUser')->name('editUser');
@@ -84,7 +88,10 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::post('/branches/gas/add', 'GastypeController@addBranchGas')->name('addBranchGas');
     Route::post('/branches/gas/delete', 'GastypeController@deleteBranchGas')->name('deleteBranchGas');
     Route::post('/branches/gas/update', 'GastypeController@updateBranchGas')->name('updateBranchGas');
+    Route::post('/branches/gas/update-dashboard', 'GastypeController@updateBranchGasdashboard')->name('updateBranchGasdashboard');
     
+    Route::get('/branches/sales/{branchid}', 'BranchController@branchsales')->name('branchsales');
+
     Route::get('/branches/dipping/{branchid}', 'DippingController@branchdipping')->name('branchdipping');
     Route::post('/branches/dipping/add', 'DippingController@addBranchDipping')->name('addBranchDipping');
     Route::post('/branches/dipping/delete', 'DippingController@deleteBranchDipping')->name('deleteBranchDipping');
@@ -93,6 +100,25 @@ Route::group(['middleware' =>'adminAuth','prefix' => 'admin'], function(){
     Route::get('/users', 'AdminController@users')->name('users');
     Route::get('/settings', 'AdminController@settings')->name('settings');
 
+    Route::post('/dashboard-creditadd', 'InchargeDashboardController@creditadd')->name('creditadd');
+    Route::post('/dashboard-creditdelete', 'InchargeDashboardController@creditdelete')->name('creditdelete');
+    
+    Route::post('/dashboard-salesadd', 'InchargeDashboardController@salesadd')->name('salesadd');
+    Route::post('/dashboard-salesdelete', 'InchargeDashboardController@salesdelete')->name('salesdelete');
+
+    Route::post('/dashboard-discountadd', 'InchargeDashboardController@discountadd')->name('discountadd');
+    Route::post('/dashboard-discountdelete', 'InchargeDashboardController@discountdelete')->name('discountdelete');
+
+    Route::post('/dashboard-othersadd', 'InchargeDashboardController@othersadd')->name('othersadd');
+    Route::post('/dashboard-othersdelete', 'InchargeDashboardController@othersdelete')->name('othersdelete');
+
+    Route::post('/dashboard/submit-report/', 'BranchController@salessubmitreport')->name('salessubmitreport');
+    Route::get('/dashboard/submit-report/check/{branch_id}', 'BranchController@salescheckreport')->name('salescheckreport');
+    Route::get('/checksubmit', 'InchargeController@checksubmit')->name('checksubmit');
+    Route::get('/report-save/{logsession}/{branch_id}', 'BranchController@branchreportsave')->name('branchreportsave');
+    Route::get('/viewrecord/{logsession}', 'InchargeController@viewrecord')->name('viewrecord');
+    Route::get('/daily-report/{logsession}/{branch_id}', 'BranchController@dailyreport')->name('dailyreport');
+
 });
 
 Route::group(['middleware' =>'inchargeAuth','prefix' => 'incharge'], function(){
@@ -100,6 +126,19 @@ Route::group(['middleware' =>'inchargeAuth','prefix' => 'incharge'], function(){
     Route::get('/pumps', 'InchargeController@pumps')->name('inchargepumps');
     Route::get('/accounts', 'InchargeController@accounts')->name('inchargeaccounts');
     Route::get('/dipping', 'InchargeController@dipping')->name('inchargedipping');
+
+    Route::post('/dipping/add', 'DippingController@addBranchDippingIncharge')->name('addBranchDippingIncharge');
+    Route::post('/dipping/delete', 'DippingController@deleteBranchDippingIncharge')->name('deleteBranchDippingIncharge');
+    Route::get('/dipping/save/{branchid}', 'DippingController@saveBranchDippingIncharge')->name('saveBranchDippingIncharge');
+
+    Route::get('/order', 'InchargeController@order')->name('inchargeorder');
+    Route::get('/order/history/{prnumber}', 'PurchaseController@purchaseorderhistoryIncharge')->name('purchaseorderhistoryIncharge');
+    Route::post('/order/addquantityrecieve/', 'PurchaseController@addquantityrecieveIncharge')->name('addquantityrecieveIncharge');
+    //Route::post('/order/addquantityrecieve/', 'PurchaseController@addquantityrecieveIncharge')->name('addquantityrecieveIncharge');
+    Route::get('/order/recieved/{prnumber}', 'PurchaseController@receivePurchase')->name('receivePurchase');
+    
+    
+
     Route::get('/report', 'InchargeController@report')->name('inchargereport');
     Route::get('/payments', 'InchargeController@payments')->name('payments');
 

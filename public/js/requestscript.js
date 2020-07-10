@@ -79,13 +79,13 @@ $(document).ready(function() {
       $('.modal-footer').on('click', '.generate', function() {
         $.ajax({
             type: 'post',
-            url: '/admin/purchase/generatepurchaseorder',
+            url: '/admin/order/generatepurchaseorder',
             data: {
                 '_token': $('input[name=_token]').val(),
                 'purchasenumber': $('.purchasenumber').text()
             },
             success: function(data) {
-                window.location.href = '/admin/purchase/history/' + $('.purchasenumber').text(); 
+                window.location.href = '/admin/order/history/' + $('.purchasenumber').text(); 
             }
         });
     });

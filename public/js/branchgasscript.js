@@ -64,12 +64,63 @@ $(document).ready(function() {
         $('.modal-title').text('Update Petrol');
         $('.deleteContent').hide();
         $('.form-horizontal').show();
+        $('#fid').val($(this).data('id'));
         $('#branchgasid').val($(this).data('gasid'));
+        $('#gasname').val($(this).data('gasname'));
+        $('#branchid').val($(this).data('branchid'));
         $('#volumeedit').val($(this).data('volume'));
         $('#priceedit').val($(this).data('price'));
 
         $('#updateGasModal').modal('show');
         //console.log($(this).data('volume') + $(this).data('price'));
+    });
+
+    $(document).on('click', '.update-modal-dashboard', function() {
+        $('#footer_update_button').text("Update");
+        $('#footer_update_button').addClass('glyphicon-check');
+        $('#footer_update_button').removeClass('glyphicon-trash');
+        $('.actionBtn').addClass('btn-success');
+        $('.actionBtn').removeClass('btn-danger');
+        $('.actionBtn').addClass('update-dashboard');
+        $('.modal-title').text('Update ' + $(this).data('gasname'));
+        $('.deleteContent').hide();
+        $('.form-horizontal').show();
+        $('#fid').val($(this).data('id'));
+        $('#branchgasid').val($(this).data('gasid'));
+        $('#gasname').val($(this).data('gasname'));
+        $('#branchid').val($(this).data('branchid'));
+        $('#volumeedit').val($(this).data('volume'));
+        $('#priceedit').val($(this).data('price'));
+
+        $('#updateGasModalDashBoard').modal('show');
+        //console.log($(this).data('volume') + $(this).data('price'));
+    });
+    $('.modal-footer').on('click', '.update-dashboard', function() {
+        $.ajax({
+            type: 'post',
+            url: '/admin/branches/gas/update-dashboard',
+            data: {
+                //_token:$(this).data('token'),
+                '_token': $('input[name=_token]').val(),
+                'id': $("#fid").val(),
+                'gasid': $("#branchgasid").val(),
+                'branchid': $("#branchid").val(),
+                'volume': $('#volumeedit').val(),
+                'price': $('#priceedit').val(),
+            },
+            success: function(data) {
+               $('.row' + data.id).replaceWith("<tr class='row" + data.id + "'><td>"+ data.gasname +"</td><td>"+ data.volume +"</td><td>"+ data.price +"</td><td class='td-actions'><button class='update-modal-dashboard btn btn-md btn-info' data-id='" + data.id + "' data-gasname='" + data.gasname + "' data-volume='" + data.volume + "' data-price='" + data.price + "' data-gasid='" + data.gasid + "' data-branchid='" + data.branchid + "'><i class='fa fa-pencil'> </i></button></td></tr>");
+                //console.log("success");
+                  new PNotify({
+                      title: 'Success',
+                      text: 'Petrol successfully updated',
+                      type: 'info',
+                      delay: 2000,
+                      styling: 'bootstrap3'
+                  }); 
+              }
+              
+        });
     });
     $('.modal-footer').on('click', '.update', function() {
         $.ajax({
@@ -78,7 +129,9 @@ $(document).ready(function() {
             data: {
                 //_token:$(this).data('token'),
                 '_token': $('input[name=_token]').val(),
-                'id': $("#branchgasid").val(),
+                'id': $("#fid").val(),
+                'gasid': $("#branchgasid").val(),
+                'branchid': $("#branchid").val(),
                 'volume': $('#volumeedit').val(),
                 'price': $('#priceedit').val(),
             },

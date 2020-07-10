@@ -43,7 +43,7 @@
                         
                         <td>{{$Gastype->gasname}} </td>
                         <td>
-                            <button class='addbranch btn btn-xs btn-success' data-id='{{$Gastype->id}}' data-productname='{{$Gastype->gasname}}' data-branchid='{{$BranchId}}'><i class='fa fa-plus'></i></button>
+                            <button class='addbranch btn btn-xs btn-success' data-id='{{$Gastype->id}}' data-gasid='{{$Gastype->gasid}}' data-productname='{{$Gastype->gasname}}' data-branchid='{{$BranchId}}'><i class='fa fa-plus'></i></button>
                         </td>
                     </tr>
                     @empty
@@ -87,7 +87,7 @@
                 ?>
                 
                 <label for="">{{number_format($Branchgas->volume,2)}} <em class="cubic"> m<sup>3</sup></em> @ {{$Branchgas->price}} php/L </label> 
-                <button class='update-modal btn btn-xs btn-info' data-gasid='{{$Branchgas->id}}' data-volume='{{$Branchgas->volume}}' data-price='{{$Branchgas->price}}'><i class='fa fa-pencil'></i></button>
+                <button class='update-modal btn btn-xs btn-info' data-id='{{$Branchgas->id}}' data-gasname="{{$Branchgas->gas['gasname']}}" data-volume='{{$Branchgas->volume}}' data-price='{{$Branchgas->price}}' data-gasid='{{$Branchgas->gasid}}' data-branchid='{{$BranchId}}'><i class='fa fa-pencil'></i></button>
                 <div class="progress">
                     <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume,2)}} <em class="cubic"> m<sup>3</sup></em></div>
                 </div>
@@ -154,7 +154,16 @@
                     {{ csrf_field() }}
                     <div class="form-group">	
                         <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="branchid">
                             <input type="hidden" class="form-control" id="branchgasid">
+                            <input type="hidden" class="form-control" id="gasid">
+                            <input type="hidden" class="form-control" id="fid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12" for="Price" >Gas Name:</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="gasname" name="gasname" disabled>
                         </div>
                     </div>
                     <div class="form-group">

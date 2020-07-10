@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Branchdipping extends Model
 {
     //
-    public function gas()
+    public function branchgas()
     {
-        return $this->belongsTo('App\Gastype','gasid','id');
+        return $this->belongsTo('App\Branchgases','gasid','id');
     }
     
 }

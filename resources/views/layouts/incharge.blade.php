@@ -42,7 +42,7 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col no-print">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
               <a href="/" class="site_title"><img src="{{ asset('img/logo.png') }}" alt="" style="width:50px;"> <span>ATP-IIS</span></a>
@@ -79,6 +79,10 @@
                     <a href="/incharge/pumps"><i class="fa fa-eyedropper"></i> Pumps </a> 
                   </li> -->
                   <li>
+                    <a href="/incharge/order"><i class="fa fa-shopping-cart"></i> Order </a> 
+                  </li>
+                  <li>
+                  
                     <a href="/incharge/dipping"><i class="fa fa-beer"></i> Dipping </a> 
                   </li>
                   <li>
@@ -114,7 +118,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">{{ ucfirst(Auth::user()->name) }}
+                    <img src="{{ asset('img/user.png') }}" alt="">{{ ucfirst(Auth::user()->name) }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

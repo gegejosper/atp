@@ -34,8 +34,8 @@
                                     <th> Opening</th>
                                     <th> Closing</th>
                                     <th> Volume </th>
-                                    <th> Unit Price </th>
-                                    <th> Amount </th>
+                                    <th class="text-right"> Unit Price </th>
+                                    <th class="text-right"> Amount </th>
                                 </tr>
                                 </thead>
                                 <tbody>

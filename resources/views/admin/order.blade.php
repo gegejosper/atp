@@ -18,13 +18,13 @@
                         <fieldset>	                                        
                             <div class="form-group">
                               <label class="control-label" for="Purchase #" >Purchase #:</label>
-                              @forelse($dataPurchase as $request)
+                              @forelse($dataPurchaseLast as $request)
                               <?php 
-                              $prnum = date("mdY");
+                              $prnum = date("m-d-Y");
                               ?>
                               <input type="text" class="form-control" placeholder="Purchase #"  aria-describedby="basic-addon2" name="purchasenumber" id="purchasenumber" value="ATP-{{$prnum}}-{{$request->id + 1}}">
                               @empty
-                              <input type="text" class="form-control" placeholder="Purchase #"  aria-describedby="basic-addon2" name="purchasenumber" id="purchasenumber" value="ATP-01-01">
+                              <input type="text" class="form-control" placeholder="Purchase #"  aria-describedby="basic-addon2" name="purchasenumber" id="purchasenumber" value="ATP-<?php echo date('m-d-Y'); ?>-01">
                               @endforelse 
                             </div>
                             <div class="form-group">
@@ -35,7 +35,7 @@
                             <div class="form-group">
                               <label class="control-label" for="Branch" >Branch:</label>
                               
-                              <select name="branch" id="branch">
+                              <select name="branch" id="branch" class="form-control" >
                                 @foreach($dataBranch as $Branch)
                                   <option value="{{$Branch->id}}">{{$Branch->branchname}}</option>
                                 @endforeach
@@ -63,12 +63,12 @@
                     
                       @foreach($dataPurchase as $puchase)
                       <tr>
-                        <td><a href="/admin/purchase/history/{{$puchase->purchasenumber}}">{{$puchase->purchasenumber}}</a></td>
+                        <td><a href="/admin/order/history/{{$puchase->purchasenumber}}">{{$puchase->purchasenumber}}</a></td>
                         <td><?php
-                          if ($puchase->status == 1){
+                          if ($puchase->status == 'ordered'){
                             echo "<em>Requesting</em>";
                           }
-                          elseif($puchase->status == 2){
+                          elseif($puchase->status == 'received'){
                             echo "<em>Received</em>";
                           }
                           else {

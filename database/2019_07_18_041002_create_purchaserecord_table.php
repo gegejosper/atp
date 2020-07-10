@@ -17,10 +17,12 @@ class CreatePurchaserecordTable extends Migration
             $table->bigIncrements('id');
             $table->string('purchasenumber');
             $table->string('quantity');
+            $table->string('recquantity');
             $table->string('price');
             $table->string('itemid');
             $table->string('status');
             $table->string('date');
+            $table->string('recdate');
             $table->timestamps();
         });
     }

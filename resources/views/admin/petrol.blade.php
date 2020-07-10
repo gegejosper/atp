@@ -18,12 +18,34 @@
                         <div class="x_panel tile">
                             <div class="x_title">
                     <h4>{{$Branch->branchname}}</h4>
-                    @foreach($Branch->branchgas as $Branchgas)  
-                                {{$Branchgas->gas['gasname']}}
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-danger" data-transitiongoal="25" aria-valuenow="25" style="width: 25%;">{{number_format($Branchgas->gas['volume'],2)}} Ltrs.</div>
-                                </div>     
-                    @endforeach
+                        @foreach($Branch->branchgas as $Branchgas)  
+                            {{$Branchgas->gas['gasname']}}
+                            <?php 
+                            $tankvolume = 24000; 
+                            $tankavailable = $Branchgas->volume;
+                            $tankdiff =   $tankvolume - $tankavailable;
+                            $tankpercent = ($tankdiff / $tankvolume) * 100;
+                            if($tankpercent >= 76){
+                                $tankprogress = "progress-bar-danger";
+                                $tankwidth = 100 - $tankpercent;
+                            }
+                            else if($tankpercent >= 26 && $tankpercent <= 75){
+                                $tankprogress = "progress-bar-warning";   
+                                $tankwidth = 100 - $tankpercent;
+                            }
+                            else if($tankpercent <= 25){
+                                $tankprogress = "progress-bar-success";   
+                                $tankwidth = 100 - $tankpercent;
+                            }
+                            else {
+                                $tankprogress = "progress-bar-info";
+                            }
+                            ?>
+                            <div class="progress">
+                           
+                                <div class="progress-bar {{$tankprogress}}" data-transitiongoal="{{$tankwidth}}" aria-valuenow="{{$tankwidth}}" style="width: {{$tankwidth}}%;">{{number_format($Branchgas->volume ,2)}} Ltrs.</div>
+                            </div>     
+                        @endforeach
                             </div>
                             <div class="clearfix"></div>
                             

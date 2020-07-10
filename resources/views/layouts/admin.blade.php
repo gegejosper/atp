@@ -148,7 +148,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">{{ ucfirst(Auth::user()->name) }}
+                    <img src="{{ asset('img/user.png') }}" alt="">{{ ucfirst(Auth::user()->name) }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -169,60 +169,14 @@
           </div>
         </div>
         <!-- /top navigation -->
-        <link href="{{ asset('css/select2.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/select2.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/validate.js') }}"></script>
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/select2.js') }}"></script>
  
 <!-- page content -->
         @yield('content')
-        <!-- /page content -->
-
-<div id="accountModal" class="modal fade " role="dialog">
-  		<div class="modal-dialog modal-lg">
-  			<!-- Modal content-->
-  			<div class="modal-content">
-  				<div class="modal-header">
-  					<button type="button" class="close" data-dismiss="modal">&times;</button>
-  					<h4 class="modal-title"></h4>
-  				</div>
-  				<div class="modal-body">
-  					<form class="form-horizontal" role="form">
-              @csrf	
-              <input type="hidden" class="form-control" id="fid">
-              <div class="form-group">
-                <div class="row">
-                  <div class="col-lg-4">
-                    <label for="Name"> Name</label>
-                    <input type="hidden" class="form-control" id="userid">
-                    <input type="text" class="form-control" id="name">
-                  </div>
-                  <div class="col-lg-4">
-                    <label for="Email">Email</label>
-                    <input type="text" class="form-control" id="dataemail">
-                  </div>
-                  <div class="col-lg-4">
-                    <label for="Password">Password</label>
-                    <input type="text" class="form-control" id="password">
-                  </div>
-                  
-                </div>
-              </div>      
-          
-  					</form>
-
-  					<div class="modal-footer">
-  						<button type="button" class="btn actionBtn btn-info" data-dismiss="modal">
-              <i class="fa fa-pencil" id="actionicon">  </i> <span id="footer_action_button">Update Account </span>
-  						</button>
-  						<button type="button" class="btn btn-warning" data-dismiss="modal">
-              <i class="fa fa-times"> </i> Close
-  						</button>
-  					</div>
-  				</div>
-  			</div>
-		  </div>
-  <!-- /.row -->
+<!-- /page content -->
 </div>
         <!-- footer content -->
         <footer class="no-print">

@@ -18,7 +18,11 @@ class Branchgases extends Model
     }
     public function branchdipping()
     {
-        return $this->belongsTo('App\Branchdipping','gasid', 'gasid');
+        return $this->belongsTo('App\Branchdipping','id', 'gasid');
+    }
+    public function branch()
+    {
+        return $this->belongsTo('App\Branch','branchid', 'id');
     }
     // public function pumps()
     // {
